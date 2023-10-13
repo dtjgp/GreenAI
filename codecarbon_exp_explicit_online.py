@@ -4,8 +4,8 @@ from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
-
-from codecarbon import OfflineEmissionsTracker
+from codecarbon import EmissionsTracker
+import time
 
 
 # Download training data from open datasets.
@@ -118,7 +118,10 @@ def test(dataloader, model, loss_fn):
 
 
 # import the tracker using explicit mode
-tracker = OfflineEmissionsTracker(country_iso_code="ITA")
+# import time to calculate the running time
+time_start = time.time()
+
+tracker = EmissionsTracker()
 tracker.start()
 
 epochs = 50
@@ -129,4 +132,7 @@ for t in range(epochs):
 print("Done!")
 
 emissions: float = tracker.stop()
+time_end = time.time()
+time_total = time_end - time_start
+print("The total running time is: ", time_total)
 print(emissions)

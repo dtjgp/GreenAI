@@ -1,3 +1,5 @@
+# Description: Read the output file of powermetric and extract the power value
+
 list_power = []
 with open('powermetric/output_test1.txt', 'r') as f:
     for line in f:
