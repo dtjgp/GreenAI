@@ -1,3 +1,4 @@
+# this is a test file to see if we can print the time to a file
 import datetime
 
 # Get the current time

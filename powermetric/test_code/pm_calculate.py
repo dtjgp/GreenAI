@@ -2,6 +2,7 @@
 
 import subprocess
 # import datetime
+import time
 
 import torch
 from torch import nn
@@ -130,21 +131,74 @@ def run_powermetrics(file_path):
     """
 
     # Define the command as a list of arguments
-    cmd = ["sudo", "powermetrics", "-i", "1000", "--samplers", "cpu_power,gpu_power", "-a", "-o", file_path]
+    cmd = ["sudo", "powermetrics",  "-i", "1000", "--samplers", "cpu_power,gpu_power", "-a", "1", "-o", file_path]
     
     process = subprocess.Popen(cmd)
     return process
 
+def txt_data_process(file_path):
+    """
+    Read the output file of powermetric and extract the power value
+
+    :param file_path: The path of the output file of powermetric.
+    :return: The list of power values.
+    """
+
+    list_power = []
+    with open(file_path, 'r') as f:
+        for line in f:
+            if 'Combined Power' in line:
+                power_value = line.split(':')[1].strip()
+                print(power_value)
+
+                # Remove the unit
+                power_value = power_value.replace('mW', '')
+
+                # Convert to integer
+                power_value = int(power_value)
+                list_power.append(power_value)
+
+    print(list_power)
+    print(len(list_power))
+
+    # do the data process
+    '''
+    The data from list_power is the Conbined Power of each second.
+    The data is the Power of each second.
+    we need to calculate the energy consumption of the whole process.
+    and need to change the J to kWh.
+    '''
+    # calculate the energy consumption
+    energy_consumption = 0
+    for i in range(len(list_power)):
+       energy_consumption += list_power[i]
+    print(energy_consumption)
+
+    # change the mW to W
+    energy_consumption = energy_consumption / 1000
+
+    # calculate the energy consumption, the interval is 1 second, and the energy unit is J
+    energy_consumption = energy_consumption * 1
+    
+    # change the J to kWh
+    energy_consumption = energy_consumption / 3600000
+    print(energy_consumption)
+    
+    return energy_consumption, list_power
+
 def main():
 
     # Create the file name by appending the time string to the file path
-    file_path = "/powermetrics_calculate.txt"
+    file_path = "powermetric/pm_calculate.txt"
     print(file_path)
+
+    # import the time lib to calculate the running time
+    time_start = time.time()
 
     # run powermetrics
     powermetrics_process = run_powermetrics(file_path)
 
-    epochs = 10
+    epochs = 50
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
         train(train_dataloader, model, loss_fn, optimizer)
@@ -153,6 +207,18 @@ def main():
 
     powermetrics_process.terminate()
     powermetrics_process.wait()
+
+    time_end = time.time()
+
+    # calculate the total running time
+    time_total = time_end - time_start
+    print("The total running time is: ", time_total)
+
+    # process the data
+    energy_consumption, power_list = txt_data_process(file_path)
+    total_training_time = len(power_list)
+    print('The total training time is: ', total_training_time, 's')
+    print('The energy consumption is: ', energy_consumption, 'kWh')
 
 if __name__ == "__main__":
     main()

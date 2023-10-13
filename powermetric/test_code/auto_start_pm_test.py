@@ -18,11 +18,11 @@ def run_powermetrics(interval, count):
     time_str = now.strftime("pm_output" + " "+ "%Y-%m-%d_%H-%M")
 
     # Create the file name by appending the time string to the file path
-    file_path = "/Users/dtjgp/Learning/Thesis/GreenAI/powermetric/" + time_str + ".txt"
+    file_path = "powermetric/output_test4.txt"
     print(file_path)
 
     # Define the command as a list of arguments
-    cmd = ["sudo", "powermetrics", "-i", str(interval), "--samplers", "cpu_power,gpu_power", "-a", "-o", file_path]
+    cmd = ["sudo", "powermetrics", "-i", str(interval), "--samplers", "cpu_power,gpu_power", "-n", str(count), "-o", file_path]
     
     # Run the command and retrieve the output
     try:
