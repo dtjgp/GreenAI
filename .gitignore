@@ -7,3 +7,4 @@ powermetric/output_test_txt/*
 powermetric/__pycache__/*
 # add the folder data
 data/*
+.DS_Store
