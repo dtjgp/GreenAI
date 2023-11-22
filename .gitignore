@@ -8,3 +8,8 @@ powermetric/__pycache__/*
 # add the folder data
 data/*
 .DS_Store
+*.gz
+Alexnet_linux/code/GPU_nvidia-smi/data/FashionMNIST/raw/train-labels-idx1-ubyte
+Alexnet_linux/code/GPU_nvidia-smi/data/FashionMNIST/raw/train-images-idx3-ubyte
+Alexnet_linux/code/GPU_nvidia-smi/data/FashionMNIST/raw/t10k-labels-idx1-ubyte
+Alexnet_linux/code/GPU_nvidia-smi/data/FashionMNIST/raw/t10k-images-idx3-ubyte
