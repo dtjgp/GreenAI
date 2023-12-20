@@ -1,5 +1,4 @@
-.DS_Store
-powermetric/.DS_Store
+*.DS_Store
 # add the folder of GreenAI/powermetric/output_test_txt
 powermetric/output_test_txt/*
 # add the folder powermetric/__pycache__
