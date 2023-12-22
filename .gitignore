@@ -4,3 +4,9 @@ powermetric/__pycache__/*
 # add the folder data
 *.gz
 
+M1chip/Third_part/data/FashionMNIST/raw/train-labels-idx1-ubyte
+M1chip/Third_part/data/FashionMNIST/raw/train-images-idx3-ubyte
+M1chip/Third_part/data/FashionMNIST/raw/t10k-labels-idx1-ubyte
+M1chip/Third_part/data/FashionMNIST/raw/t10k-images-idx3-ubyte
+*.pth
+*.npy
