@@ -8,3 +8,8 @@
 2023/11/25
 汇报之后对目前的做法进行调整：
 1. 更换更大模型，以便能够进行保存模型参数并且在多个地方进行测试
+
+2024.01.23
+1.对 macbook 中的内容和 ubuntu 中的内容进行分开保存
+2.在 ubuntu 中，Alexnet_linux 的文件中为最开始的实验内容，用于比较 codecarbon 中的结果和 nvidia-smi 中的结果是否能够对应上（结果：codecarbon 中，对于 GPU 功率的计算没有考虑到改电脑的 GPU 在 Ubuntu 下的功率限制，所以后续的计算以 nvidia-smi 为主）
+3.在 GPU 中建立新的文件夹，用于搭建一个 universal 的计算代码
