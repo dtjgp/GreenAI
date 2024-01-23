@@ -89,7 +89,7 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device):
                 time_forward_epoch[layer_index,0] += time_cost_layer
                 if torch.isinf(y_hat).any() or torch.isnan(y_hat).any():
                     print("Inf or NaN detected in y_hat")
-            time_energy_data_forward[epoch,:,0] += time_forward_epoch
+            time_energy_data_forward[epoch,:,0] = time_forward_epoch
             # 计算前向的时间
             time_forward = np.sum(time_energy_data_forward[epoch,:,0])
             print('time forward of the %d epoch is: %f sec' % (epoch, time_forward))
