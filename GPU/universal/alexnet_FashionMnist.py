@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-def AlexNet():
+def FashionMnist():
     net = nn.Sequential(
         # 这里使用一个11*11的更大窗口来捕捉对象。
         # 同时，步幅为4，以减少输出的高度和宽度。
