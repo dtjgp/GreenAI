@@ -5,7 +5,11 @@ powermetric/__pycache__/*
 *.gz
 M1chip/Third_part/data/FashionMNIST/raw/*
 *.pth
-*.npy
 GPU/universal/gpu_power_usage.csv
 GPU/data/cifar-100-python/*
 GPU/universal/__pycache__/*
+GPU/Alexnet_linux/code/nvidia-smi/SGD/alexnet_test/epoch_30adam/*.npy
+GPU/Alexnet_linux/code/nvidia-smi/SGD/alexnet_test/epoch_30e/*.npy
+GPU/Alexnet_linux/code/nvidia-smi/SGD/alexnet_test/epoch_20/*.npy
+GPU/Alexnet_linux/code/nvidia-smi/SGD/alexnet_test/epoch_10/*.npy
+GPU/Alexnet_linux/code/nvidia-smi/SGD/alexnet_test/epoch_30/*.npy

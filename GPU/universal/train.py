@@ -114,10 +114,14 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device):
         ##################################################################################
             Tci = time.time()
             # 计算acc和loss
-            running_loss += loss.item()
-            predicted = y_hat.argmax(dim=1)
-            total += y.size(0)
-            correct += (predicted == y).sum().item()
+            # running_loss += loss.item()
+            # predicted = y_hat.argmax(dim=1)
+            # total += y.size(0)
+            # correct += (predicted == y).sum().item()
+            with torch.no_grad():
+                metric.add(loss * X.shape[0], d2l.accuracy(y_hat, y), X.shape[0])
+            TrainLoss_batch = metric[0] / metric[2]
+            TrainAcc_batch = metric[1] / metric[2]
             torch.cuda.synchronize()  # 等待数据传输完成
             Tci_end = time.time()
             TCalAccLoss_batch = Tci_end - Tci
@@ -137,11 +141,14 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device):
             # TCalAccLoss_epoch += TCalAccLoss_batch
             # print('loss %f, train acc %f' % (TrainLoss_batch, TrainAcc_batch))
         ##################################################################################
-        epoch_loss = running_loss / len(train_iter)
-        epoch_acc = correct / total
-        print(f'Epoch {epoch+1} completed: Avg Loss: {epoch_loss}, Avg Accuracy: {epoch_acc}')
-        TrainLoss_epoch.append(epoch_loss)
-        TrainAcc_epoch.append(epoch_acc)
+        # epoch_loss = running_loss / len(train_iter)
+        # epoch_acc = correct / total
+        # print(f'Epoch {epoch+1} completed: Avg Loss: {epoch_loss}, Avg Accuracy: {epoch_acc}')
+        # TrainLoss_epoch.append(epoch_loss)
+        # TrainAcc_epoch.append(epoch_acc)
+        print(f'Epoch {epoch+1} completed: Avg Loss: {TrainLoss_batch}, Avg Accuracy: {TrainAcc_batch}')
+        TrainLoss_epoch.append(TrainLoss_batch)
+        TrainAcc_epoch.append(TrainAcc_batch)
         TrainTime.append(Ttrain_epoch) # 将每一轮的训练时间加入到TrainTime中
         TrainLoss.append(TrainLoss_epoch) # 将每一轮的loss加入到TrainLoss中
         TrainAcc.append(TrainAcc_epoch) # 将每一轮的train acc加入到TrainAcc中
