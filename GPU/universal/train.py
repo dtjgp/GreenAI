@@ -56,7 +56,7 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device):
                 stderr=subprocess.PIPE,
                 text=True)
         for i, (X, y) in enumerate(train_iter):  # for each batch
-            print('round %d' % (i))
+            # print('round %d' % (i))
             total += y.size(0)
             optimizer.zero_grad() # 将optimizer的梯度清零
             Tforward_batch = 0 # time forward in each batch
@@ -69,7 +69,7 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device):
             torch.cuda.synchronize()  # 等待数据传输完成
             TtD_end = time.time()
             TtD_batch = TtD_end - Tbatch_start
-            print('time to device %f sec' % (TtD_batch))
+            # print('time to device %f sec' % (TtD_batch))
             TtD_epoch += TtD_batch
         ##################################################################################
             Tforward_batch = 0 # 初始化forward的时间
@@ -178,5 +178,5 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device):
         Consumption_df = GPU_df.astype(float)  
         EnergyDatai = Consumption_df.iloc[:,0].values # 将数据转换为numpy数组
         Energy_AllEpochs[epoch,0] = EnergyDatai
-        print('epoch %d, time %f sec' % (epoch, timer.sum()))
+        print('epoch %d, time %f sec' % (epoch+1, timer.sum()))
     return Time_AllEpochs, TestAcc, TrainLoss, TrainAcc, TimeEpoch, Energy_AllEpochs, TrainTime, TTrainAccLoss
