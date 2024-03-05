@@ -10,3 +10,4 @@ GPU/data/cifar-100-python/*
 GPU/universal/__pycache__/*
 GPU/Alexnet_linux/**/*.npy
 M1/**/*.npy
+GPU/universal/Previous_data/*/*/*.npy
