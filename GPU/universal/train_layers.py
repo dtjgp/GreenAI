@@ -37,14 +37,6 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
         print('epoch %d' % (epoch + 1))
         # each epoch, set a timer to record the time
         timer.start()
-        # start the nvidia-smi command
-        with open('gpu_power_usage.csv', 'w') as file:
-            # Start the nvidia-smi command
-            nvidia_smi_process = subprocess.Popen(
-                ["nvidia-smi", "--query-gpu=power.draw", "--format=csv", "--loop-ms=1000"],
-                stdout=file,  # Redirect the output directly to the file
-                stderr=subprocess.PIPE,
-                text=True)
         net.train() # 设置为训练模式
         # store the time and energy of the current epoch
         TtD_epoch, Tforward_epoch, Tloss_epoch, Tback_epoch, Topt_epoch, Ttrain_epoch = 0,0,0,0,0,0 # to device time, forward time, loss cal time, backward time, optimizer time, epoch time
@@ -53,6 +45,14 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
         Timport_epoch = 0 # import data to ndarray in each epoch
         # set the metric using d2l.Accumulator model
         metric = d2l.Accumulator(3)
+        # start the nvidia-smi command
+        with open('gpu_power_usage.csv', 'w') as file:
+            # Start the nvidia-smi command
+            nvidia_smi_process = subprocess.Popen(
+                ["nvidia-smi", "--query-gpu=power.draw", "--format=csv", "--loop-ms=1000"],
+                stdout=file,  # Redirect the output directly to the file
+                stderr=subprocess.PIPE,
+                text=True)
         for i, (X, y) in enumerate(train_iter):  # for each batch
             print('round %d' % (i))
             Tbatch_start = time.time() # time batch start
@@ -61,8 +61,10 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
             Tforward_batch = 0 # time forward in each batch
             # time to device in each batch
             TtD_batch = 0 # time to device i
+            torch.cuda.synchronize()  # 等待数据传输完成
             TtD = time.time()
             X, y = X.to(device, non_blocking=True), y.to(device, non_blocking=True)
+            torch.cuda.synchronize()  # 等待数据传输完成
             TtD_end = time.time()
             TtD_batch = TtD_end - TtD
             print('time to device %f sec' % (TtD_batch))
@@ -77,6 +79,7 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
                 # calculate the time of each layer
                 Tlayeri = time.time()
                 y_hat = layer(y_hat)
+                torch.cuda.synchronize()  # 等待数据传输完成
                 Tlayeri_end = time.time()
                 Tlayer_i = Tlayeri_end - Tlayeri
                 TforwardLayer_batch[layer_index,0] += Tlayer_i
@@ -97,6 +100,7 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
             Tloss_batch = 0 # 初始化loss的时间
             Tli = time.time()
             loss = loss_fn(y_hat, y)
+            torch.cuda.synchronize()  # 等待数据传输完成
             Tli_end = time.time()
             Tloss_batch = Tli_end - Tli
             print('loss time %f sec' % (Tloss_batch))
@@ -106,6 +110,7 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
             Tback_batch = 0 # 初始化backward的时间
             Tbi = time.time()
             loss.backward()
+            torch.cuda.synchronize()  # 等待数据传输完成
             Tbi_end = time.time()
             Tback_batch = Tbi_end - Tbi
             print('backward time %f sec' % (Tback_batch))
@@ -115,6 +120,7 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
             Topt_batch = 0 # 初始化optimizer的时间
             Toi = time.time()
             optimizer.step()
+            torch.cuda.synchronize()  # 等待数据传输完成
             Toi_end = time.time()
             Topt_batch = Toi_end - Toi
             print('optimizer time %f sec' % (Topt_batch))
