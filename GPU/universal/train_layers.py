@@ -169,5 +169,5 @@ def train_layers(net, train_iter, test_iter, num_epochs, lr, device):
         Consumption_df = GPU_df.astype(float)  
         EnergyDatai = Consumption_df.iloc[:,0].values # 将数据转换为numpy数组
         Energy_AllEpochs[epoch,0] = EnergyDatai
-        # print('epoch %d, time %f sec' % (epoch, timer.sum()))
+        print('epoch %d, time %f sec' % (epoch+1, timer.sum()))
     return Time_Layers, Time_AllEpochs, TestAcc, TrainLoss, TrainAcc, TimeEpoch, Energy_AllEpochs, TrainTime, Timport
