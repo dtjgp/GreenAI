@@ -1,0 +1,45 @@
+﻿PVWatts Monthly PV Performance Data,,,
+Requested Location,turin,,
+Location,"TORINO-CASELLE, ITALY",,
+Latitude (DD),45.18,,
+Longitude (DD),7.65,,
+Elevation (m),282,,
+DC System Size (kW),14.2,,
+Module Type,Standard,,
+Array Type,2-Axis Tracking,,
+Array Tilt (deg),0,,
+Array Azimuth (deg),180,,
+System Losses (%),14.08,,
+DC to AC Size Ratio,1.2,,
+Inverter Efficiency (%),96,,
+Ground Coverage Ratio,NA,,
+Albedo,From weather file,,
+Bifacial,No (0),,
+Monthly Irradiance Loss (%),,,
+,Jan,0,
+,Feb,0,
+,Mar,0,
+,Apr,0,
+,May,0,
+,June,0,
+,July,0,
+,Aug,0,
+,Sept,0,
+,Oct,0,
+,Nov,0,
+,Dec,0,
+,,,
+,,,
+Month,Daily Average POA Irradiance (kWh/m2/day),DC Array Output (kWh),AC System Output (kWh)
+1,1.635,640.538,603.295
+2,2.413,831.819,786.765
+3,3.738,1398.071,1328.413
+4,5.096,1807.247,1721.273
+5,5.88,2104.112,2004.209
+6,6.53,2214.73,2110.796
+7,6.841,2363.227,2253.957
+8,5.891,2036.534,1940.487
+9,4.341,1499.493,1426.085
+10,2.676,980.973,927.727
+11,1.541,562.985,527.84
+12,1.307,506.872,474.303

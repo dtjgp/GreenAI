@@ -18,8 +18,3 @@ This is a test python file that used to test the code.
 
 # a = energy_consumption_RAM + 0.00441
 # print(a)
-import time
-import subprocess
-nvidia_smi_process = subprocess.Popen(
-                ["nvidia-smi", "--query-gpu=power.draw", "--format=csv", "--loop-ms=1000"])
-nvidia_smi_process.terminate()
