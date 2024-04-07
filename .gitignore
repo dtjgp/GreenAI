@@ -13,3 +13,4 @@ M1/**/*.npy
 # GPU/universal/Previous_data/*/*/*.npy
 # GPU/universal/Data/**/*.npy
 Cloud/4090/data/*
+PVWatts/code/__pycache__/*

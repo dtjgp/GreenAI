@@ -16,12 +16,6 @@
 # 14. the albedo of the solar panel
 # 15. the bifaciality of the solar panel
 
-import pandas as pd
-import numpy as np
-import os
-import sys
-from PVinfo import extract_data
-
 class PV:
     def __init__(self, location, latitude, longitude, elevation, DC_size, panel_type, array_type, tilt_angle, azimuth_angle, system_loss, DC_AC_ratio, inverter_efficiency, ground_coverage_ratio, albedo, bifaciality):
         self.location = location
@@ -40,4 +34,4 @@ class PV:
         self.albedo = albedo
         self.bifaciality = bifaciality
         
-    
+        
