@@ -53,5 +53,5 @@ def resnet_c():
 
     net = nn.Sequential(b1, b2, b3, b4, b5,
                         nn.AdaptiveAvgPool2d((1,1)),
-                        nn.Flatten(), nn.Linear(512, 10))
+                        nn.Flatten(), nn.Linear(512, 100))
     return net
