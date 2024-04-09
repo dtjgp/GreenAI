@@ -14,3 +14,4 @@ M1/**/*.npy
 # GPU/universal/Data/**/*.npy
 Cloud/4090/data/*
 PVWatts/code/__pycache__/*
+Cloud/4090/code/gpu_power_usage.csv
