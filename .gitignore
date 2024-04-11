@@ -15,3 +15,5 @@ M1/**/*.npy
 Cloud/4090/data/*
 PVWatts/code/__pycache__/*
 Cloud/4090/code/gpu_power_usage.csv
+Cloud/3060_95W/code/gpu_power_usage.csv
+__pycache__/
