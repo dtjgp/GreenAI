@@ -17,3 +17,7 @@ PVWatts/code/__pycache__/*
 Cloud/4090/code/gpu_power_usage.csv
 Cloud/3060_95W/code/gpu_power_usage.csv
 __pycache__/
+Cloud/3060_95W/data/cifar-100-python/file.txt~
+Cloud/3060_95W/data/cifar-100-python/meta
+Cloud/3060_95W/data/cifar-100-python/test
+Cloud/3060_95W/data/cifar-100-python/train
