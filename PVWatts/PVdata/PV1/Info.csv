@@ -1,0 +1,17 @@
+﻿PVWatts Hourly PV Performance Data,Value
+Requested Location,turin
+Location,"TORINO-CASELLE, ITALY"
+Latitude (DD),45.18
+Longitude (DD),7.65
+Elevation (m),282
+DC System Size (kW),0.2
+Module Type,Standard
+Array Type,2-Axis Tracking
+Array Tilt (deg),0
+Array Azimuth (deg),180
+System Losses (%),14.08
+DC to AC Size Ratio,1.2
+Inverter Efficiency (%),96
+Ground Coverage Ratio,NA
+Albedo,From weather file
+Bifacial,No (0)

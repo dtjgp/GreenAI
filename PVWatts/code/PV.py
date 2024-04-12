@@ -34,4 +34,4 @@ class PV:
         self.albedo = albedo
         self.bifaciality = bifaciality
         
-        
+    def hourly_data
