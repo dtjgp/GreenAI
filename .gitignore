@@ -25,3 +25,4 @@ Cloud/3060_95W/data/FashionMNIST/raw/t10k-images-idx3-ubyte
 Cloud/3060_95W/data/FashionMNIST/raw/t10k-labels-idx1-ubyte
 Cloud/3060_95W/data/FashionMNIST/raw/train-images-idx3-ubyte
 Cloud/3060_95W/data/FashionMNIST/raw/train-labels-idx1-ubyte
+PVWatts/code/gpu_power_usage.csv

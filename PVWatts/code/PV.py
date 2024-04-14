@@ -34,4 +34,7 @@ class PV:
         self.albedo = albedo
         self.bifaciality = bifaciality
         
-    def hourly_data
+    def get_hourly_data(self, data):
+        # the data is a dataframe, directly use the dataframe to analyze the data
+        self.houlydata = data
+        return self.houlydata
