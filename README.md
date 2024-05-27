@@ -38,3 +38,6 @@
 
 2024.04.10
 1. 4090_sync_nosync主要的测试内容是sync与nosync的情况下，能耗是否有差距，以及二者之间会有什么样的变化
+
+2024.05.26
+1. 3060_95W/Data/googlenet_mod1是去掉了Inception中的p1,mod2是去掉了p2，mod3是去掉了p3，mod4是去掉了p4
