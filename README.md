@@ -41,3 +41,9 @@
 
 2024.05.26
 1. 3060_95W/Data/googlenet_mod1是去掉了Inception中的p1,mod2是去掉了p2，mod3是去掉了p3，mod4是去掉了p4
+2. 3060_95W/Data/googlenet_mod5,mod6,mod7,mod8,mod9是对inception部分进行了调整，将所有的分支都设置为了相同的结构，然后探究并行的影响是怎么样影响的运行时间以及能耗，其中：
+    1) mod5是只保留一个分支进行运行
+    2) mod6保留两个分支
+    3) mod7三个分支 
+    4) mod8四个分支
+    5) mod9针对不加入任何的inception的时候的能耗进行计算
