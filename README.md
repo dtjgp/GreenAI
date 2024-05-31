@@ -51,3 +51,5 @@
 2024.05.30
 1. 增加nosync代码，确认一下并行的效率能够到多少，
     1) nosync1为针对原始googlenet，单独考虑前向传播过程中的优化
+    2) nosync2为针对原始googlenet，对多个过程进行合并，看其优化的特性，先考虑整合time to device和forward部分
+    3) nosync4为针对原始googlenet，对多个过程进行合并，看其优化的特性，先考虑整合ttd,forward和backward部分
