@@ -1,0 +1,21 @@
+{
+    "Alexnet": "/root/GreenAI/Cloud/4090/Data/alexnet_AllLayers/fashion_mnist/E20_B256_R0",
+    "VGG11": "/root/GreenAI/Cloud/4090/Data/vgg11/fashion_mnist/E20_B256_R0",
+    "VGG16": "/root/GreenAI/Cloud/4090/Data/vgg16/fashion_mnist/E20_B256_R0",
+    "ResNet18": "/root/GreenAI/Cloud/4090/Data/resnet18/fashion_mnist/E20_B256_R0",
+    "ResNet34": "/root/GreenAI/Cloud/4090/Data/resnet34/fashion_mnist/E20_B256_R0",
+    "GoogleNet": "/root/GreenAI/Cloud/4090/Data/googlenet/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod0": "/root/GreenAI/Cloud/4090/Data/googlenet_mod9/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod1": "/root/GreenAI/Cloud/4090/Data/googlenet_mod5/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod2": "/root/GreenAI/Cloud/4090/Data/googlenet_mod6/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod3": "/root/GreenAI/Cloud/4090/Data/googlenet_mod7/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod4": "/root/GreenAI/Cloud/4090/Data/googlenet_mod8/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod5": "/root/GreenAI/Cloud/4090/Data/googlenet_mod5_mod1/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod6": "/root/GreenAI/Cloud/4090/Data/googlenet_mod6_mod/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod7": "/root/GreenAI/Cloud/4090/Data/googlenet_mod7_mod1/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod8": "/root/GreenAI/Cloud/4090/Data/googlenet_mod8_mod1/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod9": "/root/GreenAI/Cloud/4090/Data/googlenet_mod5_mod2/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod10": "/root/GreenAI/Cloud/4090/Data/googlenet_mod6_mod2/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod11": "/root/GreenAI/Cloud/4090/Data/googlenet_mod7_mod2/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod12": "/root/GreenAI/Cloud/4090/Data/googlenet_mod8_mod2/fashion_mnist/E20_B256_R0"
+}
