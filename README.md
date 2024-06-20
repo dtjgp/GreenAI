@@ -58,3 +58,4 @@
 2. The FinalDataAnalysis is to show the relationship between the MACs, Parameters and energy consumption(original version)
 3. The FinalDataAnalysis_fun1 is the improvement version of FinalDataAnalysis, with all the plot written into function
 4. The FinalDataAnalysis_fun2 is the code that try to use the Machine Learning algorithm to analysis the math relation between MACs only with the Energy consumption
+5. add a FinalDataAnalysis_fun3 to create a new test dataset
