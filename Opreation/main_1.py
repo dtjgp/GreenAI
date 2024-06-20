@@ -41,7 +41,7 @@ import json
 import pandas as pd
 
 # 读取太阳能数据
-solar_data = pd.read_csv('/Users/jingsichen/Politecnico Di Torino Studenti Dropbox/Jingsi Chen/Mac/Desktop/Green AI/AI/solve/pvwatts_hourly.csv')
+solar_data = pd.read_csv('/Users/dtjgp/Learning/GreenAI/Opreation/solve/pvwatts_hourly.csv')
 G_max_solar = solar_data['AC System Output (W)'][1:8761].tolist()
 
 # 定义其他参数
@@ -56,8 +56,8 @@ sell_back_price = 0.3
 # all_results = []
 
 # 循环计算不同持续时间和开始时间的电费支出
-for Hours in range(26, 33):
-    for start_hour in range(72, 144):
+for Hours in range(22, 23):
+    for start_hour in range(0, 144):
         end_hour = start_hour + Hours
         result = solve_gurobi(
             start_hour=start_hour,

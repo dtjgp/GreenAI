@@ -130,7 +130,7 @@ def solve_gurobi(start_hour, end_hour, instance,contributions,E_max, alpha, beta
     energy_dispatch_df['total_job_completion'] = f"{total_completion:.2%}"
     energy_dispatch_df['minimum_cost'] = f"{minimum_cost:.2f}"
 
-    energy_dispatch_df.to_csv('/Users/jingsichen/Politecnico Di Torino Studenti Dropbox/Jingsi Chen/Mac/Desktop/Green AI/AI/results/Duration{}_start{}.csv'.format(end_hour-start_hour, start_hour), index=False)
+    energy_dispatch_df.to_csv('/Users/dtjgp/Learning/GreenAI/Opreation/results/Duration{}_start{}.csv'.format(end_hour-start_hour, start_hour), index=False)
 
     return results
 
