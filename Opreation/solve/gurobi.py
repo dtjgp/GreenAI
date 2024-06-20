@@ -110,6 +110,7 @@ def solve_gurobi(start_hour, end_hour, instance,contributions,E_max, alpha, beta
                 'R_solar': R_solar[t].X,
                 'D_dc': D_dc[t].X,
                 'D_grid': D_grid[t].X,
+                'ESD': ESD[t].X,
                 'GPU_power': gpu_power[t].X,
                 'operations': [],
                 'job_completion': completion_per_slot[t].X 
