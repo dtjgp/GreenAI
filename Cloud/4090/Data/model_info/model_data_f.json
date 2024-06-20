@@ -16,10 +16,10 @@
     "GoogleNet_mod6": "/root/GreenAI/Cloud/4090/Data/googlenet_mod6_mod1/fashion_mnist/E20_B256_R0",
     "GoogleNet_mod7": "/root/GreenAI/Cloud/4090/Data/googlenet_mod7_mod1/fashion_mnist/E20_B256_R0",
     "GoogleNet_mod8": "/root/GreenAI/Cloud/4090/Data/googlenet_mod8_mod1/fashion_mnist/E20_B256_R0",
-    "GoogleNet_mod9": "/root/GreenAI/Cloud/4090/Data/googlenet_mod9_mod2/fashion_mnist/E20_B256_R0",
-    "GoogleNet_mod10": "/root/GreenAI/Cloud/4090/Data/googlenet_mod10_mod2/fashion_mnist/E20_B256_R0",
-    "GoogleNet_mod11": "/root/GreenAI/Cloud/4090/Data/googlenet_mod11_mod2/fashion_mnist/E20_B256_R0",
-    "GoogleNet_mod12": "/root/GreenAI/Cloud/4090/Data/googlenet_mod12_mod2/fashion_mnist/E20_B256_R0",
-    "MobileNetV1": "/root/GreenAI/Cloud/4090/Data/mobilenetv1/fashion_mnist/E20_B256_R0",
-    "MobileNetV2": "/root/GreenAI/Cloud/4090/Data/mobilenetv2/fashion_mnist/E20_B256_R0"
+    "GoogleNet_mod9": "/root/GreenAI/Cloud/4090/Data/googlenet_mod5_mod2/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod10": "/root/GreenAI/Cloud/4090/Data/googlenet_mod6_mod2/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod11": "/root/GreenAI/Cloud/4090/Data/googlenet_mod7_mod2/fashion_mnist/E20_B256_R0",
+    "GoogleNet_mod12": "/root/GreenAI/Cloud/4090/Data/googlenet_mod8_mod2/fashion_mnist/E20_B256_R0",
+    "MobileNetV1": "/root/GreenAI/Cloud/4090/Data/mobilenet_v1/fashion_mnist/E20_B256_R0",
+    "MobileNetV2": "/root/GreenAI/Cloud/4090/Data/mobilenet_v2/fashion_mnist/E20_B256_R0"
 }
