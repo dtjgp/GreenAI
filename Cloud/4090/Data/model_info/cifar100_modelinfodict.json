@@ -7,71 +7,71 @@
         7640000000.0,
         129180000.0
     ],
-    "VGG16": [
+    "VGG13": [
         15520000000.0,
         134670000.0
     ],
-    "ResNet18": [
+    "VGG16": [
         1830000000.0,
         11230000.0
     ],
-    "ResNet34": [
+    "ResNet18": [
         3680000000.0,
         21340000.0
     ],
-    "GoogleNet": [
+    "ResNet34": [
         1600000000.0,
         6080000.0
     ],
-    "GoogleNet_mod0": [
+    "ResNet50": [
         485620000.0,
         143720.0
     ],
-    "GoogleNet_mod1": [
+    "GoogleNet": [
         1170000000.0,
         3460000.0
     ],
-    "GoogleNet_mod2": [
+    "GoogleNet_mod0": [
         1940000000.0,
         7360000.0
     ],
-    "GoogleNet_mod3": [
+    "GoogleNet_mod1": [
         2820000000.0,
         11820000.0
     ],
-    "GoogleNet_mod4": [
+    "GoogleNet_mod2": [
         3790000000.0,
         16850000.0
     ],
-    "GoogleNet_mod5": [
+    "GoogleNet_mod3": [
         533740000.0,
         467700.0
     ],
-    "GoogleNet_mod6": [
+    "GoogleNet_mod4": [
         657650000.0,
         1390000.0
     ],
-    "GoogleNet_mod7": [
+    "GoogleNet_mod5": [
         857010000.0,
         2900000.0
     ],
-    "GoogleNet_mod8": [
+    "GoogleNet_mod6": [
         1130000000.0,
         4990000.0
     ],
-    "GoogleNet_mod9": [
+    "GoogleNet_mod7": [
         623090000.0,
         756180.0
     ],
-    "GoogleNet_mod10": [
+    "GoogleNet_mod8": [
         766740000.0,
         1430000.0
     ],
-    "GoogleNet_mod11": [
+    "GoogleNet_mod9": [
         916270000.0,
         2140000.0
     ],
-    "GoogleNet_mod12": [
+    "GoogleNet_mod10": [
         1070000000.0000001,
         2890000.0
     ]
