@@ -52,3 +52,9 @@
 1. 增加nosync代码，确认一下并行的效率能够到多少，
     1) nosync1为针对原始googlenet，单独考虑前向传播过程中的优化
     3) nosync3为针对原始googlenet，对多个过程进行合并，看其优化的特性，全部进行nosync处理
+
+2024.06.20
+1. Analysis code is used to import all model and get the MACs as well as the Parameters info
+2. The FinalDataAnalysis is to show the relationship between the MACs, Parameters and energy consumption(original version)
+3. The FinalDataAnalysis_fun1 is the improvement version of FinalDataAnalysis, with all the plot written into function
+4. The FinalDataAnalysis_fun2 is the code that try to use the Machine Learning algorithm to analysis the math relation between MACs only with the Energy consumption
