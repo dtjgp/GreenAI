@@ -1,46 +1,68 @@
 import torch
-from torchprofile import profile_macs
-from torchvision.models import resnet50
-from torchvision.models import resnet18
-import pretty_errors
+from torchvision.models import resnet50, resnet18
 from googlenet_FashionMnist import Googlenet
+import requests
+import json
+from datetime import datetime
 
-# model = resnet50()
-# inputs = torch.randn(1, 3, 224, 224)
+def get_weather(api_key, city):
+    """
+    Fetch weather data for a given city using OpenWeatherMap API
+    """
+    base_url = "http://api.openweathermap.org/data/2.5/weather"
+    params = {
+        'q': city,
+        'appid': api_key,
+        'units': 'metric'  # for Celsius
+    }
+    
+    try:
+        response = requests.get(base_url, params=params)
+        weather_data = response.json()
+        if response.status_code == 401:
+            return "Error: Invalid API key. Please wait 1-2 hours for a new key to activate."
+        elif response.status_code == 200:
+            return {
+                'temperature': weather_data['main']['temp'],
+                'humidity': weather_data['main']['humidity'],
+                'description': weather_data['weather'][0]['description']
+            }
+        else:
+            return f"Error: {weather_data.get('message', 'Unknown error')} (Status code: {response.status_code})"
+    except Exception as e:
+        return f"Error fetching weather data: {str(e)}"
 
-# # 计算模型的MACs
-# macs = profile_macs(model, inputs)
-# print(f'MACs: {macs}')
+def calculate_macs_metrics(cuda_num=16384, freq=2700, MACs=1.52e9, 
+                         batch_size=256, GPU_util=0.9, pic_num=60000):
+    GPU_MACs_per_sec = cuda_num * freq * GPU_util * 10**6
+    total_MACs = MACs * pic_num
+    total_time = total_MACs / GPU_MACs_per_sec
+    
+    return GPU_MACs_per_sec, total_MACs, total_time
 
+def main():
+    # Calculate MACs metrics
+    GPU_MACs_per_sec, total_MACs, total_time = calculate_macs_metrics()
+    
+    print("=== Performance Metrics ===")
+    print(f"GPU_MACs_per_sec: {GPU_MACs_per_sec:,.2f}")
+    print(f"total_MACs: {total_MACs:,.2f}")
+    print(f"total_time: {total_time:.4f} seconds")
+    
+    # Get weather data
+    api_key = '647626c3e259fcc8e1b5e8f16fa5dad4'  # Replace with your actual API key
+    city = 'Turin'  # You can change the city
+    
+    print("\n=== Weather Information ===")
+    weather = get_weather(api_key, city)
+    if isinstance(weather, dict):
+        print(f"City: {city}")
+        print(f"Temperature: {weather['temperature']}°C")
+        print(f"Humidity: {weather['humidity']}%")
+        print(f"Description: {weather['description']}")
+    else:
+        print(f"Weather data error: {weather}")
 
-# # 实例化模型
-# model = Googlenet()
+if __name__ == "__main__":
+    main()
 
-# # 准备输入数据的示例，确保其尺寸匹配模型的输入要求
-# inputs = torch.randn(1, 3, 224, 224)
-
-# # 遍历模型的每一层
-# for name, module in model.named_modules():
-#     try:
-#         # 只对具有可计算MACs的层进行分析
-#         if len(list(module.children())) == 0 and len(list(module.parameters())) > 0:
-#             macs = profile_macs(module, inputs)
-#             print(f'{name}: {macs} MACs')
-#             # 更新inputs为当前层的输出，以便于传递给下一层
-#             inputs = module(inputs)
-#     except Exception as e:
-#         # 忽略无法计算MACs的层，如激活层、池化层等
-#         print(f"Skipping {name}, due to: {e}")
-
-cuda_num = 16384
-freq = 2700
-MACs = 1.52 * 10**9
-batch_size = 256
-GPU_util = 0.9
-pic_num = 60000
-GPU_MACs_per_sec = cuda_num * freq * GPU_util * 10**6
-print(f"GPU_MACs_per_sec: {GPU_MACs_per_sec}")
-total_MACs = MACs * pic_num
-print(f"total_MACs: {total_MACs}")
-total_time = total_MACs / GPU_MACs_per_sec
-print(f"total_time: {total_time}")
