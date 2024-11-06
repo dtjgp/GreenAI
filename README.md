@@ -62,3 +62,6 @@
 
 2024.06.24
 1. FinalDataAnalysis_fun4主要是针对所有的MACs的参数进行归一化
+
+2024.11.05
+1. 对不同功率上限的 GPU 的 performance 的数据进行分析
