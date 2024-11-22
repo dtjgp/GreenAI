@@ -65,6 +65,11 @@
 
 2024.11.05
 1. 对不同功率上限的 GPU 的 performance 的数据进行分析
+2. 新建了 DataAnalysis_c.ipynb and DataAnalysis_f.ipynb, 用于对不同的 GPU 的功率上限下训练速度进行分析
+3. 新建了 PowerLimit_EnergyConsump_c.ipynb, PowerLimit_EnergyConsump_f.ipynb and PowerLimit_EnergyConsump_Combined.ipynb来对能耗数据进行分析
 
 2024.11.19
-1. 新建EnergySavingAnalysis文件夹,用于分析在小模型下,在不同的功率上限的条件下,模型进行训练的过程中能够节省的能耗量
+1. 新建EnergySavingAnalysis.ipynb,用于分析在小模型下,在不同的功率上限的条件下,模型进行训练的过程中能够节省的能耗量
+
+2024.11.20
+1. 在 TrainSpeed.ipynb 文件中,通过使用 GBR 模型对不同的功率上限下的 GPU 的 MACs 运行速度进行预测,并且保存了模型的参数
