@@ -74,3 +74,6 @@
 2024.11.20
 1. 在 TrainSpeed.ipynb 文件中,通过使用 GBR 模型对不同的功率上限下的 GPU 的 MACs 运行速度进行预测, 采用的是 poly linear regression方式对这一段功率进行预测, 并且保存了模型的参数
 2. 通过加载模型, 对场景(假设project 整体拥有在最高功率下运行 100 个 epochs 的能源)下,不同的 GPU 功率上限下,GPU 能够对模型训练的epochs 的数量进行模拟
+
+2024.12.03
+1. add a new folder to do the verification code
