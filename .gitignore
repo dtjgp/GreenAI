@@ -35,3 +35,4 @@ PVWatts/data/cifar-100-python/meta
 PVWatts/data/cifar-100-python/test
 PVWatts/data/cifar-100-python/train
 MasterThesisSlides/*
+3080/.ipynb_checkpoints/*
