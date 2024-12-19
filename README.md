@@ -77,3 +77,6 @@
 
 2024.12.03
 1. add a new folder to do the verification code
+
+2024.12.19
+1. the 3080 GPU trained each model, and in MobileNetV2, the training process used torch.cuda.amp.GradScaler to automatically adjust the accuracy, to see if the GPU memory can be saved in cased out of memory
