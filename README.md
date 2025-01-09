@@ -80,3 +80,9 @@
 
 2024.12.19
 1. the 3080 GPU trained each model, and in MobileNetV2, the training process used torch.cuda.amp.GradScaler to automatically adjust the accuracy, to see if the GPU memory can be saved in cased out of memory
+2. 在3080 的文件夹中,对alexnet, googlenet 以及 resnet18 的前向传播的每一层的数据进行了采集,然后在 googlenet 的代码中测试装饰器以求提高代码的复用率
+
+2025.01.09
+1. 现在一共有三个文件夹保存了最新的数据,3080, 4090, 以及 4070
+2. 其中 3080 和 4090 的数据是通过云端的gpu进行的测试,而 4070 的数据是通过本地的gpu 进行测试的
+3. 云端的gpu 主要记录的数据为不同的 step 以及 forward 过程中的不同的 layer 的能耗数据,而本地的 gpu 在此基础上额外记录了 GPU 在不同的 power_level 下的 performance 的变化
