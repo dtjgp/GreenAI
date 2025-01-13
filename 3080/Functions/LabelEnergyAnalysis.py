@@ -106,7 +106,7 @@ def transfer_type(npfiles):
                             index=range(npfiles.shape[1]))
     # print(f'the shape of the result_df is {result_df.shape}')
 
-    # Fill the DataFrame
+    # Fill the DataFrame 
     for epoch in range(npfiles.shape[0]):
         for batch in range(npfiles.shape[1]):
             result_df.iloc[batch, epoch] = [npfiles[epoch, batch, 0], npfiles[epoch, batch, 1]]
