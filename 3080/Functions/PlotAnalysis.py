@@ -406,6 +406,9 @@ def plot_epoch_step_energy(to_device_energy, forward_energy, loss_energy, backwa
     plt.tight_layout()
     plt.show()
 
+    # return the means and stds
+    return means, stds
+
 
 # plot each step total time data with all batch with the x axis set to each step in each epoch
 def cal_time_epoch(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy):

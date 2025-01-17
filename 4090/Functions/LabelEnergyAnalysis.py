@@ -6,7 +6,7 @@ import numba as nb
 import numpy as np
 import pandas as pd
 
-@nb.jit(nopython=True)
+@nb.jit
 def interpolate_point(times, powers, target_time):
     n = len(times)
     if n == 0:
@@ -34,7 +34,7 @@ def interpolate_point(times, powers, target_time):
     ratio = (target_time - t1) / (t2 - t1)
     return p1 + (p2 - p1) * ratio
 
-@nb.jit(nopython=True)
+@nb.jit
 def integrate_power_over_interval(samples, start_time, end_time):
     times = samples[:, 0]
     powers = samples[:, 1]
