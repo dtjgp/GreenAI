@@ -105,7 +105,7 @@ def load_data(model_path):
 
 
 # Plot the energy data of each sample with scatter plot and line plot
-def plot_energy_data(labeled_energy_data, step_colors, step_markers):
+def plot_energy_data(labeled_energy_data, step_colors, step_markers, model_name, plot_folder):
     # Plot the data with a larger figure size
     fig, ax = plt.subplots(figsize=(12, 6))
 
@@ -114,10 +114,13 @@ def plot_energy_data(labeled_energy_data, step_colors, step_markers):
         step_data = labeled_energy_data[labeled_energy_data['step'] == step]
         ax.scatter(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step, s=5, marker=step_markers[step])
 
-    ax.set_xlabel('Timestamp')
+    ax.set_xlabel(f'Timestamp Across All Samples in {model_name}')
     ax.set_ylabel('Power in Watts')
+    ax.set_title(f'Energy Data of Each Sample in {model_name}')
     ax.legend()
     plt.show()
+    # save the figure, to a specific directory
+    plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name}.png'))
 
     # Create a new figure and axis
     fig, ax = plt.subplots(figsize=(12,6))
@@ -128,14 +131,17 @@ def plot_energy_data(labeled_energy_data, step_colors, step_markers):
         if step != 'idle':
             ax.plot(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step)
 
-    ax.set_xlabel('Timestamp')
+    ax.set_xlabel(f'Timestamp Across All Samples in {model_name}')
     ax.set_ylabel('Power in Watts')
+    ax.set_title(f'Energy Data of Each Sample in {model_name} in Line Plot')
     ax.legend()
     plt.show()
+    # save the figure, to a specific directory
+    plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name} in line plot.png'))
 
 
 # Plot the energy data of a time period with scatter plot
-def plot_period_energy_data(labeled_energy_data, step_colors):
+def plot_period_energy_data(labeled_energy_data, step_colors, model_name, plot_folder):
     # Create a new figure and axis
     fig, ax = plt.subplots(figsize=(12,8))
 
@@ -152,14 +158,20 @@ def plot_period_energy_data(labeled_energy_data, step_colors):
         step_data = labeled_energy_data_rows[labeled_energy_data_rows['step'] == step]
         ax.scatter(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step)
 
-    ax.set_xlabel('Timestamp')
+    ax.set_xlabel(f'Timestamp Across Selected Samples in {model_name}')
     ax.set_ylabel('Power in Watts')
+    ax.set_title(f'Energy Data of a Time Period in {model_name}')
     ax.legend()
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'Selected period energy data of {model_name}.png'))
 
 
 # plot each step energy data in each batch
-def plot_batch_step_energy(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy, step_colors):
+def plot_batch_step_energy(to_device_energy, forward_energy, 
+                           loss_energy, backward_energy, 
+                           optimize_energy, step_colors, 
+                           modelname, plot_folder):
     batch_info = ['to_device', 'forward', 'loss', 'backward', 'optimize']
     energy_data_dict = {
         'to_device': to_device_energy,
@@ -176,14 +188,20 @@ def plot_batch_step_energy(to_device_energy, forward_energy, loss_energy, backwa
         energy_consumption = [energy_data[epoch][batch][2] for epoch in range(to_device_energy.shape[0]) for batch in range(to_device_energy.shape[1])]
         ax.plot(range(len(energy_consumption)), energy_consumption, color=step_colors[step], label=step)
 
-    ax.set_xlabel('Batch Index(Total 5 Epochs)')
-    ax.set_ylabel('Energy Consumption per batch in Joules')
+    ax.set_xlabel(f'Batch Index(Total 5 Epochs) in all Epcohs of {modelname}')
+    ax.set_ylabel('Energy Consumption in Joules')
+    ax.set_title(f'Energy Consumption for Each Step in all Batches of {modelname}')
     ax.legend()
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'each step energy consumption in each batch of {modelname}.png'))
 
 
 # plot each step energy data with all batch with the x axis set to each step
-def plot_step_energy_distribution(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy, step_colors):
+def plot_step_energy_distribution(to_device_energy, forward_energy, 
+                                  loss_energy, backward_energy, 
+                                  optimize_energy, step_colors,
+                                  modelname, plot_folder):
     batch_info = ['to_device', 'forward', 'loss', 'backward', 'optimize']
     energy_data_dict = {
         'to_device': to_device_energy,
@@ -193,30 +211,60 @@ def plot_step_energy_distribution(to_device_energy, forward_energy, loss_energy,
         'optimize': optimize_energy
     }
 
-    # plot the energy consumption for each step using dots
-    fig, ax = plt.subplots(figsize=(10, 6))
+    # Define markers for each step
+    markers = {
+        'to_device': 'o',  # circle
+        'forward': '^',    # triangle up
+        'loss': 's',      # square
+        'backward': 'D',   # diamond
+        'optimize': 'v'    # triangle down
+    }
 
-    # Calculate the average energy consumption for each step
-    average_energy_consumption = {step: np.mean([energy_data[epoch][batch][2] for epoch in range(to_device_energy.shape[0]) for batch in range(to_device_energy.shape[1])]) for step, energy_data in energy_data_dict.items()}
+    # Create figure with grid
+    fig, ax = plt.subplots(figsize=(12, 8))
+    ax.grid(True, linestyle='--', alpha=0.7)
 
-    # Plot each step's energy consumption as a dot on the corresponding x-axis
+    # Plot each step's energy consumption with different markers and lighter colors
     for i, step in enumerate(batch_info):
         energy_data = energy_data_dict[step]
-        energy_consumption = [energy_data[epoch][batch][2] for epoch in range(to_device_energy.shape[0]) for batch in range(to_device_energy.shape[1])]
-        ax.scatter([i] * len(energy_consumption), energy_consumption, color=step_colors[step], label=step, marker='o')
+        energy_consumption = [energy_data[epoch][batch][2] 
+                            for epoch in range(to_device_energy.shape[0]) 
+                            for batch in range(to_device_energy.shape[1])]
+        
+        # Make colors lighter by adding alpha
+        ax.scatter([i] * len(energy_consumption), 
+                  energy_consumption,
+                  color=step_colors[step], 
+                  label=step,
+                  marker=markers[step],
+                  alpha=0.6,
+                  s=50)  # Increase marker size
 
-    # Set the x-axis labels to the batch_info
+    # Customize plot appearance
     ax.set_xticks(range(len(batch_info)))
-    ax.set_xticklabels(batch_info)
-
-    ax.set_xlabel('Steps')
-    ax.set_ylabel('Energy Consumption per batch in Joules')
-    ax.legend()
+    ax.set_xticklabels(batch_info, rotation=45)
+    ax.set_xlabel(f'Batch Steps in {modelname}', fontsize=12)
+    ax.set_ylabel('Energy Consumption in Joules', fontsize=12)
+    ax.set_title(f'Energy Consumption Distribution for Each Step\nin all Batches of {modelname}', 
+                 fontsize=14, pad=20)
+    
+    # Place legend outside of plot
+    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    
+    # Adjust layout to prevent label cutoff
+    plt.tight_layout()
     plt.show()
+    
+    # Save the figure
+    plt.savefig(os.path.join(plot_folder, 
+                f'each_step_energy_consumption_distribution_{modelname}.png'),
+                bbox_inches='tight', dpi=300)
 
 
 # plot each step mean and std energy data with all batch with the x axis set to each step
-def plot_step_energy_distribution_bar(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy):
+def plot_step_energy_distribution_bar(to_device_energy, forward_energy, 
+                                      loss_energy, backward_energy, 
+                                      optimize_energy, modelname, plot_folder):
     # Use a more subtle color palette
     step_colors = {
         'idle': '#999999',  # light gray
@@ -250,22 +298,27 @@ def plot_step_energy_distribution_bar(to_device_energy, forward_energy, loss_ene
     ax.bar(steps, means, yerr=stds, capsize=5, color=[step_colors[step] for step in steps])
 
     # Set the x-axis and y-axis labels and title
-    ax.set_xlabel('Steps', fontsize=14)
-    ax.set_ylabel('Energy Consumption per batch in Joules', fontsize=14)
-    ax.set_title('Mean and Standard Deviation of Energy Consumption for Each Step in 1 Batch', fontsize=16)
+    ax.set_xlabel(f'Batch Steps in {modelname}', fontsize=12)
+    ax.set_ylabel('Energy Consumption in Joules', fontsize=12)
+    ax.set_title(f'Mean and Standard Deviation of Energy Consumption for Each Step in 1 Batch in {modelname}', fontsize=14)
 
     # Improve the layout and aesthetics
-    plt.xticks(fontsize=12)
-    plt.yticks(fontsize=12)
+    plt.xticks(fontsize=10)
+    plt.yticks(fontsize=10)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
 
     # Show the plot
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'mean and std energy consumption of each step in 1 batch of {modelname}.png'))
 
 
 # plot each step time consumption with all batch with the x axis set to each batch
-def plot_step_time_distribution(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy, step_colors):
+def plot_step_time_distribution(to_device_energy, forward_energy, 
+                                loss_energy, backward_energy, 
+                                optimize_energy, step_colors,
+                                modelname, plot_folder):
     batch_info = ['to_device', 'forward', 'loss', 'backward', 'optimize']
     energy_data_dict = {
         'to_device': to_device_energy,
@@ -290,17 +343,21 @@ def plot_step_time_distribution(to_device_energy, forward_energy, loss_energy, b
         ax.plot(range(len(time_durations)), time_durations, 
                 color=step_colors[step], label=step)
 
-    ax.set_xlabel('Batch Index (Total 5 Epochs)')
+    ax.set_xlabel(f'Batch Steps (Total 5 Epochs) in {modelname}')
     ax.set_ylabel('Time Duration (seconds)')
-    ax.set_title('Time Consumption per Step across Batches')
+    ax.set_title(f'Time Consumption per Step across Batches in {modelname}')
     ax.legend()
     ax.grid(True, linestyle='--', alpha=0.7)
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'time consumption per step across batches in {modelname}.png'))
 
 
 # plot each step time consumption with all batch with the x axis set to each step
 def plot_step_time_distribution_box(to_device_energy, forward_energy, loss_energy, 
-                                    backward_energy, optimize_energy, step_colors, step_markers):
+                                    backward_energy, optimize_energy, 
+                                    step_colors, step_markers,
+                                    modelname, plot_folder):
     # Create a dictionary to store time durations for each step
     step_times = {
         'to_device': [],
@@ -335,19 +392,23 @@ def plot_step_time_distribution_box(to_device_energy, forward_energy, loss_energ
 
     # Customize plot
     plt.xticks(range(1, len(step_times) + 1), list(step_times.keys()), rotation=45)
+    plt.xlabel(f'Steps in {modelname}')
     plt.ylabel('Time Duration (seconds)')
-    plt.title('Distribution of Time Consumption per Step')
+    plt.title(f'Distribution of Time Consumption per Step in {modelname}')
     plt.grid(True, linestyle='--', alpha=0.7)
     plt.legend()
     
     # Adjust layout to prevent label cutoff
     plt.tight_layout()
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'time consumption distribution of each step across batches in {modelname}.png'))
 
 
 # plot each step total energy data with all batch with the x axis set to each step in each epoch
 # calculate the energy consumption for each step in each epoch
-def cal_energy_epoch(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy):
+def cal_energy_epoch(to_device_energy, forward_energy, loss_energy, 
+                     backward_energy, optimize_energy):
     energy_step_epoch = np.zeros((to_device_energy.shape[0], 5))
     for epoch in range(to_device_energy.shape[0]):
         for batch in range(to_device_energy.shape[1]):
@@ -359,9 +420,11 @@ def cal_energy_epoch(to_device_energy, forward_energy, loss_energy, backward_ene
     return energy_step_epoch
 
 
-def plot_epoch_step_energy(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy, step_colors):
+def plot_epoch_step_energy(to_device_energy, forward_energy, 
+                           loss_energy, backward_energy, 
+                           optimize_energy, step_colors, modelname, plot_folder):
     energy_step_epoch = cal_energy_epoch(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    print(energy_step_epoch)
+    # print(energy_step_epoch)
     step_info = ['to_device', 'forward', 'loss', 'backward', 'optimize']
     num_epochs = energy_step_epoch.shape[0]
     bar_width = 0.15  # Width of each bar
@@ -382,10 +445,15 @@ def plot_epoch_step_energy(to_device_energy, forward_energy, loss_energy, backwa
     ax.set_xticks(np.arange(len(step_info)) + (num_epochs - 1) * bar_width / 2)
     ax.set_xticklabels(step_info)
 
-    ax.set_xlabel('Steps')
+    ax.set_xlabel(f'Steps in {modelname}')
     ax.set_ylabel('Total Energy Consumption in Joules')
     ax.legend()
+    ax.set_title(f'Energy Consumption for Each Step in Each Epoch of {modelname}')
+    # set a grid
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'epoch step energy consumption of {modelname}.png'))
 
     # Calculate mean and std across epochs for each step
     means = np.mean(energy_step_epoch, axis=0)
@@ -397,14 +465,16 @@ def plot_epoch_step_energy(to_device_energy, forward_energy, loss_energy, backwa
     # Plot bars with error bars
     ax.bar(step_info, means, yerr=stds, capsize=5, color=[step_colors[step] for step in step_info])
 
-    ax.set_xlabel('Steps', fontsize=12)
-    ax.set_ylabel('Average Energy Consumption (Joules)', fontsize=12)
-    ax.set_title('Mean and Standard Deviation of Energy Consumption Across Epochs', fontsize=14)
+    ax.set_xlabel(f'Steps in {modelname}', fontsize=12)
+    ax.set_ylabel('Energy Consumption (Joules)', fontsize=12)
+    ax.set_title(f'Mean and Standard Deviation of Energy Consumption Across Epochs of {modelname}', fontsize=14)
 
     plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'mean and std energy consumption of each step in each epoch of {modelname}.png'))
 
     # return the means and stds
     return means, stds
@@ -423,9 +493,11 @@ def cal_time_epoch(to_device_energy, forward_energy, loss_energy, backward_energ
             time_step_epoch[epoch][4] += optimize_energy[epoch][batch][1] - optimize_energy[epoch][batch][0]
     return time_step_epoch
 
-def plot_epoch_step_time(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy, step_colors):
+def plot_epoch_step_time(to_device_energy, forward_energy, 
+                         loss_energy, backward_energy, 
+                         optimize_energy, step_colors, modelname, plot_folder):
     time_step_epoch = cal_time_epoch(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    print(time_step_epoch)
+    # print(time_step_epoch)
     step_info = ['to_device', 'forward', 'loss', 'backward', 'optimize']
     num_epochs = time_step_epoch.shape[0]
     bar_width = 0.15
@@ -444,10 +516,14 @@ def plot_epoch_step_time(to_device_energy, forward_energy, loss_energy, backward
     ax.set_xticks(np.arange(len(step_info)) + (num_epochs - 1) * bar_width / 2)
     ax.set_xticklabels(step_info)
 
-    ax.set_xlabel('Steps')
-    ax.set_ylabel('Total Time Consumption in Seconds')
+    ax.set_xlabel(f'Steps in {modelname}')
+    ax.set_ylabel('Time Consumption in Seconds')
+    ax.set_title(f'Time Consumption for Each Step in Each Epoch of {modelname}')
     ax.legend()
+    plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'epoch step time consumption of {modelname}.png'))
 
     # Calculate mean and std across epochs for each step
     means = np.mean(time_step_epoch, axis=0)
@@ -459,28 +535,30 @@ def plot_epoch_step_time(to_device_energy, forward_energy, loss_energy, backward
     # Plot bars with error bars
     ax.bar(step_info, means, yerr=stds, capsize=5, color=[step_colors[step] for step in step_info])
 
-    ax.set_xlabel('Steps', fontsize=12)
-    ax.set_ylabel('Average Time Consumption (Seconds)', fontsize=12)
-    ax.set_title('Mean and Standard Deviation of Time Consumption Across Epochs', fontsize=14)
+    ax.set_xlabel(f'Steps in {modelname}', fontsize=12)
+    ax.set_ylabel('Time Consumption (Seconds)', fontsize=12)
+    ax.set_title(f'Mean and Standard Deviation of Time Consumption Across Epochs of {modelname}', fontsize=14)
 
     plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.tight_layout()
     plt.show()
+    # save the figure
+    plt.savefig(os.path.join(plot_folder, f'mean and std time consumption of each step in each epoch of {modelname}.png'))
 
 
-# plot with different models
-def plot_model(modelname, model_data_folder_list):
-    model_data_path = [model_data_folder_list[i] for i in range(len(model_data_folder_list)) if f'{modelname}' in model_data_folder_list[i]][0]
-    energy_data, labeled_energy_data, to_device, forward, loss, backward, optimize, \
-    to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy = load_data(model_data_path)
+# # plot with different models
+# def plot_model(modelname, model_data_folder_list, plot_folder):
+#     model_data_path = [model_data_folder_list[i] for i in range(len(model_data_folder_list)) if f'{modelname}' in model_data_folder_list[i]][0]
+#     energy_data, labeled_energy_data, to_device, forward, loss, backward, optimize, \
+#     to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy = load_data(model_data_path)
 
-    plot_energy_data(labeled_energy_data)
-    plot_period_energy_data(labeled_energy_data)
-    plot_batch_step_energy(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    plot_step_energy_distribution(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    plot_step_energy_distribution_bar(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    plot_epoch_step_energy(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    plot_step_time_distribution(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    plot_step_time_distribution_box(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
-    plot_epoch_step_time(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_energy_data(labeled_energy_data,)
+#     plot_period_energy_data(labeled_energy_data)
+#     plot_batch_step_energy(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_step_energy_distribution(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_step_energy_distribution_bar(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_epoch_step_energy(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_step_time_distribution(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_step_time_distribution_box(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
+#     plot_epoch_step_time(to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy)
