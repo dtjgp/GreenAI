@@ -128,8 +128,8 @@ def plot_energy_data(labeled_energy_data, step_colors, step_markers, model_name,
     # Plot each step with a different color
     for step in step_colors.keys():
         step_data = labeled_energy_data[labeled_energy_data['step'] == step]
-        if step != 'idle':
-            ax.plot(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step)
+        # if step != 'idle':
+        ax.plot(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step)
 
     ax.set_xlabel(f'Timestamp Across All Samples in {model_name}')
     ax.set_ylabel('Power in Watts')
