@@ -120,31 +120,31 @@ def plot_scatter_energy_data(energy_data, model_name, plot_folder):
     plt.tight_layout()
     plt.show()
     # save the figure, to a specific directory
-    plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name}.png'))
 
 
 # Plot the energy data of each sample with scatter plot and line plot
-def plot_energy_data(labeled_energy_data, step_colors, model_name, plot_folder):
+def plot_energy_data(labeled_energy_data, step_colors, step_markers,model_name, plot_folder):
     # Plot the data with a larger figure size
-    # fig, ax = plt.subplots(figsize=(12, 6))
-    # Plot each step with a different marker
-    # for step, group in labeled_energy_data.groupby('step'):
-    #     plt.scatter(group['timestamp'], group['power_in_watts'], label=f'Step: {step}', s=10, alpha=0.7)
+    fig, ax = plt.subplots(figsize=(12, 6))
 
-    # # Add labels, legend, and title
-    # plt.xlabel('Time (seconds)')
-    # plt.ylabel('Power (W)')
-    # plt.title('Power vs Time by Step (Scatter Plot)')
-    # plt.grid(True)
-    # plt.legend()
-    # plt.tight_layout()
-    # plt.show()
+    # Plot each step with a different marker
+    for step in step_colors.keys():
+        step_data = labeled_energy_data[labeled_energy_data['step'] == step]
+        ax.scatter(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step, s=5, marker=step_markers[step])
+
+    ax.set_xlabel(f'Timestamp Across All Samples in {model_name}')
+    ax.set_ylabel('Power in Watts')
+    ax.set_title(f'Energy Data of Each Sample in {model_name}')
+    ax.legend()
+    plt.show()
     # save the figure, to a specific directory
     # plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name}.png'))
 
     # Create a new figure and axis
     fig, ax = plt.subplots(figsize=(12,6))
 
+    print(f'The total length of the labeled_energy_data is {len(labeled_energy_data)}')
     # Plot each step with a different color
     for step in step_colors.keys():
         step_data = labeled_energy_data[labeled_energy_data['step'] == step]
@@ -157,7 +157,7 @@ def plot_energy_data(labeled_energy_data, step_colors, model_name, plot_folder):
     ax.legend()
     plt.show()
     # save the figure, to a specific directory
-    plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name} in line plot.png'))
+    # plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name} in line plot.png'))
 
 
 # Plot the energy data of a time period with scatter plot
@@ -184,7 +184,7 @@ def plot_period_energy_data(labeled_energy_data, step_colors, model_name, plot_f
     ax.legend()
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'Selected period energy data of {model_name}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'Selected period energy data of {model_name}.png'))
 
 
 # plot each step energy data in each batch
@@ -214,7 +214,7 @@ def plot_batch_step_energy(to_device_energy, forward_energy,
     ax.legend()
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'each step energy consumption in each batch of {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'each step energy consumption in each batch of {modelname}.png'))
 
 
 # plot each step energy data with all batch with the x axis set to each step
@@ -276,9 +276,9 @@ def plot_step_energy_distribution(to_device_energy, forward_energy,
     plt.show()
     
     # Save the figure
-    plt.savefig(os.path.join(plot_folder, 
-                f'each_step_energy_consumption_distribution_{modelname}.png'),
-                bbox_inches='tight', dpi=300)
+    # plt.savefig(os.path.join(plot_folder, 
+    #             f'each_step_energy_consumption_distribution_{modelname}.png'),
+    #             bbox_inches='tight', dpi=300)
 
 
 # plot each step mean and std energy data with all batch with the x axis set to each step
@@ -331,7 +331,7 @@ def plot_step_energy_distribution_bar(to_device_energy, forward_energy,
     # Show the plot
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'mean and std energy consumption of each step in 1 batch of {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'mean and std energy consumption of each step in 1 batch of {modelname}.png'))
 
 
 # plot each step time consumption with all batch with the x axis set to each batch
@@ -370,7 +370,7 @@ def plot_step_time_distribution(to_device_energy, forward_energy,
     ax.grid(True, linestyle='--', alpha=0.7)
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'time consumption per step across batches in {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'time consumption per step across batches in {modelname}.png'))
 
 
 # plot each step time consumption with all batch with the x axis set to each step
@@ -422,7 +422,7 @@ def plot_step_time_distribution_box(to_device_energy, forward_energy, loss_energ
     plt.tight_layout()
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'time consumption distribution of each step across batches in {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'time consumption distribution of each step across batches in {modelname}.png'))
 
 
 # plot each step total energy data with all batch with the x axis set to each step in each epoch
@@ -473,7 +473,7 @@ def plot_epoch_step_energy(to_device_energy, forward_energy,
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'epoch step energy consumption of {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'epoch step energy consumption of {modelname}.png'))
 
     # Calculate mean and std across epochs for each step
     means = np.mean(energy_step_epoch, axis=0)
@@ -494,7 +494,7 @@ def plot_epoch_step_energy(to_device_energy, forward_energy,
     plt.tight_layout()
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'mean and std energy consumption of each step in each epoch of {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'mean and std energy consumption of each step in each epoch of {modelname}.png'))
 
     # return the means and stds
     return means, stds
@@ -543,7 +543,7 @@ def plot_epoch_step_time(to_device_energy, forward_energy,
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'epoch step time consumption of {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'epoch step time consumption of {modelname}.png'))
 
     # Calculate mean and std across epochs for each step
     means = np.mean(time_step_epoch, axis=0)
@@ -564,7 +564,7 @@ def plot_epoch_step_time(to_device_energy, forward_energy,
     plt.tight_layout()
     plt.show()
     # save the figure
-    plt.savefig(os.path.join(plot_folder, f'mean and std time consumption of each step in each epoch of {modelname}.png'))
+    # plt.savefig(os.path.join(plot_folder, f'mean and std time consumption of each step in each epoch of {modelname}.png'))
 
 
 # # plot with different models
