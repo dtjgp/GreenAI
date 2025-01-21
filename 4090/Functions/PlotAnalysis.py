@@ -85,6 +85,7 @@ def load_data(model_path):
     # load the csv files 
     energy_data = pd.read_csv(os.path.join(model_path, 'energy_consumption_file.csv'))
     labeled_energy_data = pd.read_csv(os.path.join(model_path, 'labeled_energy_data.csv'))
+    # labeled_energy_data['timestamp'] = pd.to_datetime(labeled_energy_data['timestamp'], unit='s')
 
     # load the npy files
     to_device = np.load(os.path.join(model_path, 'to_device.npy'), allow_pickle=True)
@@ -103,24 +104,43 @@ def load_data(model_path):
     return energy_data, labeled_energy_data, to_device, forward, loss, backward, optimize, \
             to_device_energy, forward_energy, loss_energy, backward_energy, optimize_energy
 
-
-# Plot the energy data of each sample with scatter plot and line plot
-def plot_energy_data(labeled_energy_data, step_colors, step_markers, model_name, plot_folder):
-    # Plot the data with a larger figure size
+# plot scatter plot of the energy data
+def plot_scatter_energy_data(energy_data, model_name, plot_folder):
     fig, ax = plt.subplots(figsize=(12, 6))
-
     # Plot each step with a different marker
-    for step in step_colors.keys():
-        step_data = labeled_energy_data[labeled_energy_data['step'] == step]
-        ax.scatter(step_data['timestamp'], step_data['power_in_watts'], color=step_colors[step], label=step, s=5, marker=step_markers[step])
-
-    ax.set_xlabel(f'Timestamp Across All Samples in {model_name}')
-    ax.set_ylabel('Power in Watts')
-    ax.set_title(f'Energy Data of Each Sample in {model_name}')
-    ax.legend()
+    x_axis = np.arange(len(energy_data))
+    print(x_axis)
+    plt.plot(x_axis, energy_data['power_in_watts'],alpha=0.7)
+    # Add labels, legend, and title
+    plt.xlabel('Time (seconds)')
+    plt.ylabel('Power (W)')
+    plt.title('Power vs Time by Step (Scatter Plot)')
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
     plt.show()
     # save the figure, to a specific directory
     plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name}.png'))
+
+
+# Plot the energy data of each sample with scatter plot and line plot
+def plot_energy_data(labeled_energy_data, step_colors, model_name, plot_folder):
+    # Plot the data with a larger figure size
+    # fig, ax = plt.subplots(figsize=(12, 6))
+    # Plot each step with a different marker
+    # for step, group in labeled_energy_data.groupby('step'):
+    #     plt.scatter(group['timestamp'], group['power_in_watts'], label=f'Step: {step}', s=10, alpha=0.7)
+
+    # # Add labels, legend, and title
+    # plt.xlabel('Time (seconds)')
+    # plt.ylabel('Power (W)')
+    # plt.title('Power vs Time by Step (Scatter Plot)')
+    # plt.grid(True)
+    # plt.legend()
+    # plt.tight_layout()
+    # plt.show()
+    # save the figure, to a specific directory
+    # plt.savefig(os.path.join(plot_folder, f'energy_data of {model_name}.png'))
 
     # Create a new figure and axis
     fig, ax = plt.subplots(figsize=(12,6))
