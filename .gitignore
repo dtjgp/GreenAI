@@ -45,3 +45,4 @@ data/cifar-100-python/*
 3080/Plots_fashion_mnist/*
 .cursorrules
 data/*
+M3/data/*
