@@ -391,6 +391,23 @@ def vgg16(input_channels, output_channels):
         nn.Linear(4096, 4096), nn.ReLU(), nn.Dropout(0.5),
         nn.Linear(4096, output_channels)  # Output layer for 1000 classes
     )
+    
+'''VGG19'''
+def vgg19(input_channels, output_channels):
+    conv_arch = [(2, 64), (2, 128), (4, 256), (4, 512), (4, 512)]
+    in_channels = input_channels  # For RGB images
+    # Create convolutional layers
+    conv_layers = []
+    for num_convs, out_channels in conv_arch:
+        conv_layers.append(VGGBlock(num_convs, in_channels, out_channels))
+        in_channels = out_channels
+
+    return nn.Sequential(
+        *conv_layers, nn.Flatten(),
+        nn.Linear(out_channels * 7 * 7, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, output_channels)  # Output layer for 1000 classes
+    )
 
 ############################################################################################################
 '''GoogleNet'''
