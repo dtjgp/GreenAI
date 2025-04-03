@@ -6,8 +6,7 @@ resnet50,2.32 GMac,13.87 M,2.4 GMac,13.92 M,2.4 GMac,13.87 M
 vgg11,7.6 GMac,128.81 M,7.65 GMac,129.18 M,7.65 GMac,128.81 M
 vgg13,11.31 GMac,128.99 M,11.37 GMac,129.36 M,11.37 GMac,128.99 M
 vgg16,15.48 GMac,134.3 M,15.54 GMac,134.67 M,15.54 GMac,134.3 M
-mobilenetv1,567.7 MMac,3.21 M,575.02 MMac,3.3 M,574.93 MMac,3.21 M
-mobilenetv2,326.2 MMac,2.24 M,333.54 MMac,2.35 M,333.42 MMac,2.24 M
+vgg19,19.63 GMac,139.61 M,19.69 GMac,139.98 M,19.68 GMac,139.61 M
 googlenet,1.52 GMac,5.98 M,1.6 GMac,6.08 M,1.6 GMac,5.98 M
 googlenet_mod1,1.32 GMac,4.61 M,1.4 GMac,4.67 M,1.4 GMac,4.62 M
 googlenet_mod2,682.58 MMac,5.03 M,761.31 MMac,5.09 M,761.26 MMac,5.03 M
@@ -18,3 +17,4 @@ googlenet_mod6,1.87 GMac,7.28 M,1.95 GMac,7.36 M,1.95 GMac,7.29 M
 googlenet_mod7,2.75 GMac,11.71 M,2.83 GMac,11.82 M,2.83 GMac,11.71 M
 googlenet_mod8,3.72 GMac,16.7 M,3.8 GMac,16.85 M,3.8 GMac,16.71 M
 googlenet_mod9,410.09 MMac,120.07 k,488.78 MMac,143.72 k,488.77 MMac,126.35 k
+vit,2.6 GMac,51.5 M,2.71 GMac,53.69 M,2.71 GMac,53.6 M
