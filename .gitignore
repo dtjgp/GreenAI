@@ -46,3 +46,8 @@ data/cifar-100-python/*
 .cursorrules
 data/*
 M3/data/*
+SolarPanelData/*/*/*.csv
+SolarPanelData_revise/*/*.csv
+*.pdf
+*/*.pdf
+*/*.png
