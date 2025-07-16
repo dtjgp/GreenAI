@@ -51,3 +51,4 @@ SolarPanelData_revise/*/*.csv
 *.pdf
 */*.pdf
 */*.png
+GPU_Performance/Local/4070/data/*
