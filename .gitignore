@@ -1,57 +1,8 @@
 *.DS_Store
-# add the folder powermetric/__pycache__
-powermetric/__pycache__/*
-# add the folder data
-*.gz
-M1chip/Third_part/data/FashionMNIST/raw/*
-*.pth
-GPU/universal/gpu_power_usage.csv
-GPU/data/cifar-100-python/*
-GPU/universal/__pycache__/*
-# GPU/Alexnet_linux/**/*.npy
-M1/**/*.npy
-# GPU/universal/Previous_data/*/*/*.npy
-# GPU/universal/Data/**/*.npy
-Cloud/4090/data/*
-PVWatts/code/__pycache__/*
-Cloud/4090/code/gpu_power_usage.csv
-Cloud/3060_95W/code/gpu_power_usage.csv
-__pycache__/
-Cloud/3060_95W/data/cifar-100-python/file.txt~
-Cloud/3060_95W/data/cifar-100-python/meta
-Cloud/3060_95W/data/cifar-100-python/test
-Cloud/3060_95W/data/cifar-100-python/train
-Cloud/3060_95W/data/FashionMNIST/raw/t10k-images-idx3-ubyte
-Cloud/3060_95W/data/FashionMNIST/raw/t10k-labels-idx1-ubyte
-Cloud/3060_95W/data/FashionMNIST/raw/train-images-idx3-ubyte
-Cloud/3060_95W/data/FashionMNIST/raw/train-labels-idx1-ubyte
-PVWatts/code/gpu_power_usage.csv
-PVWatts/data/FashionMNIST/raw/t10k-images-idx3-ubyte
-PVWatts/data/FashionMNIST/raw/t10k-labels-idx1-ubyte
-PVWatts/data/FashionMNIST/raw/train-images-idx3-ubyte
-PVWatts/data/FashionMNIST/raw/train-labels-idx1-ubyte
-PVWatts/data/cifar-100-python/file.txt~
-PVWatts/data/cifar-100-python/meta
-PVWatts/data/cifar-100-python/test
-PVWatts/data/cifar-100-python/train
-MasterThesisSlides/*
-3080/.ipynb_checkpoints/*
-4070/data/cifar-10-batches-py/*
-4070/data/cifar-100-python/*
-data/cifar-100-python/*
-4090/Plots_cifar100/*
-4090/Plots_fashion_mnist/*
-3080/Plots_cifar100/*
-3080/Plots_fashion_mnist/*
-.cursorrules
-data/*
-M3/data/*
-SolarPanelData/*/*/*.csv
-SolarPanelData_revise/*/*.csv
 *.pdf
 GPU_Performance/Local/4070/data/*
 GPU_Performance/Local/M1/M1chip/Third_part/data/*
 GPU_Performance/Local/M3/data/*
-Optimization/Opt_Version1/results/*
-Optimization/Opt_Version2/result_data/*
-Optimization/Opt_Version2/result_data_revise/*
+Optimization/*/*/*.csv
+**/__pycache__/
+.cursorrules
