@@ -49,6 +49,9 @@ M3/data/*
 SolarPanelData/*/*/*.csv
 SolarPanelData_revise/*/*.csv
 *.pdf
-*/*.pdf
-*/*.png
 GPU_Performance/Local/4070/data/*
+GPU_Performance/Local/M1/M1chip/Third_part/data/*
+GPU_Performance/Local/M3/data/*
+Optimization/Opt_Version1/results/*
+Optimization/Opt_Version2/result_data/*
+Optimization/Opt_Version2/result_data_revise/*
