@@ -88,3 +88,8 @@
 3. 云端的gpu 主要记录的数据为不同的 step 以及 forward 过程中的不同的 layer 的能耗数据,而本地的 gpu 在此基础上额外记录了 GPU 在不同的 power_level 下的 performance 的变化
 4. 精简代码,将原本的 layer 的代码直接并入原本的 CNNs_model.ipynb代码中
 5. 接下来需要将所有的数据全部转换成为 csv 文件, 方便之后转换为database
+
+2025.07.14
+1. 重新设置了项目结构,其中包括:
+    1. GPU_Performance: 用于分析不同的 GPU 在不同的功率上限下的性能
+    2. Optimization: 用于解决后续的提出的多能源形式供电的优化问题
