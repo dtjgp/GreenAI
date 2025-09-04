@@ -191,6 +191,7 @@ def nvml_sampling_thread(handle, filename, stop_event, sampling_interval):
 
 '''train function without capturing layer consumption'''
 def train_func(net, train_iter, test_iter, num_epochs, lr, device, filename, sampling_interval):
+    torch.cuda.empty_cache()
     def init_weights(m):
         if type(m) == nn.Linear or type(m) == nn.Conv2d:
             nn.init.xavier_uniform_(m.weight)

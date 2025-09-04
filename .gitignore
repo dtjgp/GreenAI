@@ -6,3 +6,4 @@ GPU_Performance/Local/M3/data/*
 Optimization/*/*/*.csv
 **/__pycache__/
 .cursorrules
+GPU_Performance/Cloud/AutoDL_Version2/data/*
