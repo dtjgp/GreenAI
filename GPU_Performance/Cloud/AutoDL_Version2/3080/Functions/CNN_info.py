@@ -234,8 +234,9 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device, filename, sam
 
         net.train()
         for i, (X, y) in enumerate(train_iter):
+            torch.cuda.empty_cache()
             print('The batch is:', i+1)
-            optimizer.zero_grad()
+            optimizer.zero_grad(set_to_none=True)
             torch.cuda.synchronize()
 
             # 记录to_device前后的时间戳
@@ -301,6 +302,8 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device, filename, sam
         optimize_intervals_total.append(optimize_intervals_epoch)
         test_intervals_total.append(test_intervals_epoch)
         epoch_intervals_total.append(epoch_intervals_epoch)
+        torch.cuda.empty_cache()
+
 
     # End training and close thread
     stop_event.set()
