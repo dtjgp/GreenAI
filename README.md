@@ -93,3 +93,13 @@
 1. 重新设置了项目结构,其中包括:
     1. GPU_Performance: 用于分析不同的 GPU 在不同的功率上限下的性能
     2. Optimization: 用于解决后续的提出的多能源形式供电的优化问题
+
+## 成果 Publications
+
+### Energy Sustainability Analysis of Deep Neural Network
+- **作者 Authors:** Jun Yin, Jingsi Chen, Greta Vallero, Michela Meo
+- **会议 Venue:** 2025 International Conference on Modeling, Analysis and Simulation of Wireless and Mobile Systems (MSWiM)
+- **日期 Date:** October 27, 2025
+- **DOI:** 10.1109/MSWiM67937.2025.11309062
+- **链接 Link:** https://ieeexplore.ieee.org/document/11309062
+- **摘要 Abstract:** AI applications raise environmental concerns due to high energy use for training large DNNs. This paper analyzes energy consumption in DNN training, focusing on the relationship between energy consumption, execution time, and hardware characteristics (e.g., GPU power limits, model structure). Our method can reduce energy consumption by more than 40% and operational costs by almost 25%.
