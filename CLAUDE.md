@@ -7,6 +7,80 @@ This file provides working guidance for AI assistants when operating in this rep
 
 ---
 
+## Project Charter
+
+### One-Line Goal
+Build a measurement-grounded framework for characterizing deep neural network training energy under GPU power limits, and use those measurements to optimize data-center energy cost and carbon footprint via hybrid solar-grid-battery scheduling.
+
+### Two Coupled Research Lines
+- **A1. Measurement & Modeling** — empirically characterize how GPU power caps, model architecture, and training stages affect execution time, energy, and energy efficiency
+- **A2. Scheduling & Optimization** — use measured power-performance profiles to optimize training-time dispatch across solar generation, grid power, batteries, and selectable GPU power states
+
+### Scenarios & Objects
+- Heterogeneous AI training environments: local (`RTX 3060`, `RTX 4070`, `Apple M1`, `Apple M3`) and cloud (`RTX 3080`, `RTX 4090`)
+- Workloads spanning CNN families: `AlexNet`, `VGG`, `ResNet`, `GoogLeNet` variants, `MobileNet`, plus selected `ViT` tests
+- Hybrid-powered AI data center with solar generation, grid purchase/sell-back, and battery storage
+
+### Core Methods
+- Fine-grained stage-level GPU energy measurement (`to_device`, `forward`, `loss`, `backward`, `optimize`) plus layer-level profiling for representative models
+- GPU power-performance modeling under discrete power caps via **GBR (Gradient Boosting Regression)** and related regression
+- Cross-hardware comparison linking architecture descriptors → time, energy, efficiency
+- **MILP / Gurobi**-based energy scheduling with discrete GPU power-state selection, solar/grid/battery dispatch, battery efficiency (~0.9), optional grid sell-back
+- PVWatts-based solar generation modeling
+
+### Key Assumptions & Constraints (Red Lines)
+- **All energy conclusions must be grounded in real measured hardware data — no synthetic traces**
+- GPU power is controlled through **discrete** power-limit options, not continuous tuning
+- Battery charge/discharge efficiency modeled explicitly
+- Scheduling is constrained by training-progress / completion requirements, not pure energy minimization
+- Cross-hardware comparability requires controlled dataset, batch size, epoch count, synchronization, sampling
+
+### Evaluation Metrics
+- **Measurement / Modeling**: epoch time, stage-wise time, epoch energy, stage-wise energy, energy-delay tradeoff, efficiency under power caps, model prediction error
+- **Scheduling / Optimization**: electricity cost reduction, carbon reduction, renewable utilization, battery utilization, training completion ratio / deadline satisfaction, training-time extension under constrained power
+
+### Baselines & Comparisons
+- Full-power training (no power cap)
+- Uniform fixed power-cap policies across the full horizon
+- Pure-grid supply vs. hybrid supply (solar + battery)
+- Different power-limit settings under matched training-budget or matched-energy-budget scenarios
+- Model-level and hardware-level cross-platform comparisons
+
+### Current Progress
+- ✅ Multi-platform measurement repository across local + cloud hardware
+- ✅ Large-scale energy/performance artifacts including epoch-level and labeled stage-level traces
+- ✅ Reusable energy-labeling and stage-decomposition utilities
+- ✅ Gurobi-based scheduling formulations with GPU power-state decisions and hybrid dispatch
+- ✅ PVWatts renewable supply modeling workflow
+- ✅ Published: *Energy Sustainability Analysis of Deep Neural Network*, **MSWiM 2025**, DOI `10.1109/MSWiM67937.2025.11309062`
+
+### Current Bottlenecks
+- End-to-end narrative connecting measurement/modeling → optimization gains needs tightening
+- Power-performance prediction model needs validation across more workloads and hardware
+- Scheduling lacks systematic heuristic / fixed-policy baselines
+- Reproducibility layer needs upgrade: experiment registry, data schema, configuration logs, seed/environment docs
+- Need clearer separation between exploratory studies and the main publishable claim
+
+### Near-Term Milestones (2–6 weeks)
+1. Consolidate canonical benchmark subset (models × datasets × GPUs × power levels) for the main paper
+2. Finalize per-GPU power-performance curves; rigorously quantify prediction error
+3. Add stronger scheduling baselines; report cost / carbon / deadline tradeoffs under matched scenarios
+4. Reorganize results into paper-ready structure: empirical characterization → predictive modeling → optimization outcomes
+5. Package measurement + analysis pipeline into a reproducible open-source workflow
+
+### Paper / System Goals
+- **Primary publishable angle**: measurement-grounded green AI training under controllable GPU power limits
+- **Secondary angle**: hybrid-energy-aware scheduling calibrated by empirically measured GPU power-performance models
+- **Target venues**: ACM eEnergy, IEEE INFOCOM workshops, sustainable computing / green AI venues
+- **Contribution framing**:
+  1. Heterogeneous GPU measurement study of training energy under power caps
+  2. Fine-grained stage-level energy characterization linking model structure ↔ training behavior
+  3. Predictive power-performance model usable by downstream schedulers
+  4. Hybrid-energy scheduling framework calibrated by real measured GPU behavior
+- **Open-source plan**: release measurement-analysis-scheduling toolchain with reproducible configs, raw/processed data schema, benchmark instructions
+
+---
+
 ## LLM Wiki 集成
 
 本项目连接到统一的 `llm-wiki` 知识库，用于研究辅助、知识校对、baseline 检索与论文写作支撑。
