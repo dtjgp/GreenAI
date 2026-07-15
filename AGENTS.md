@@ -124,7 +124,7 @@ Scheduling and optimization:
 
 This project is connected to the central `llm-wiki` knowledge base:
 
-- Wiki path: `/Users/dtjgp/Library/CloudStorage/GoogleDrive-dtjgp92613@gmail.com/My Drive/Obsidian/llm-wiki`
+- Wiki path: `/Users/dtjgp/llm-wiki`
 
 ### Required Behavior
 

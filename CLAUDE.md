@@ -85,7 +85,7 @@ Build a measurement-grounded framework for characterizing deep neural network tr
 
 本项目连接到统一的 `llm-wiki` 知识库，用于研究辅助、知识校对、baseline 检索与论文写作支撑。
 
-**Wiki 路径**: `/Users/dtjgp/Library/CloudStorage/GoogleDrive-dtjgp92613@gmail.com/My Drive/Obsidian/llm-wiki`
+**Wiki 路径**: `/Users/dtjgp/llm-wiki`
 
 **使用规则**：
 1. 讨论学术问题、实验设计、建模、优化或论文写作时，先查 `llm-wiki`
