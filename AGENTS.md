@@ -6,25 +6,14 @@ Work as a coding and research assistant for the GreenAI repository. Prioritize
 measurement-grounded evidence, reproducible energy analysis, and a publishable
 connection between GPU training characterization and hybrid energy scheduling.
 
-## Research Router Auto-Routing
+## Research Method Review
 
-- For any nontrivial research, literature, experiment-design, result-analysis,
-  paper-writing, claim-audit, reproducibility, Zotero/Obsidian, MCP, plugin, or
-  skill-selection task in this repository, use `$research-router` as the first
-  routing layer before choosing specialized skills, MCP servers, or plugins.
-- Treat this as the project default for GreenAI work, especially GPU energy
-  measurement, power-performance modeling, MILP scheduling, carbon/cost
-  analysis, benchmark design, and paper-facing tasks.
-- If the current Codex session has not discovered `research-router` yet, follow
-  the installed router files directly at
-  `/Users/dtjgp/.codex/skills/research-router/` and note that a new Codex
-  session is needed for automatic skill discovery.
-- If the user explicitly names a skill, MCP server, plugin, or tool, prefer the
-  requested route unless it conflicts with this project's measured-data,
+- For proposed methods, experiment designs, result interpretation, paper plans,
+  novelty/rigor assessments, or claim-boundary reviews, use
+  `$research-method-review`.
+- Before a strong GreenAI judgment, inspect the measured repository artifacts
+  first. The review skill does not override this project's measurement,
   reproducibility, or claim-boundary rules.
-- For GreenAI energy, carbon, cost, or scheduling claims, the router must still
-  inspect measured repository artifacts first; it does not override the
-  authoritative-source rules below.
 
 ## Project Charter
 
