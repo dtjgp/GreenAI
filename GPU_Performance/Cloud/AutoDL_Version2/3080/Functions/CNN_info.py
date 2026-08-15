@@ -7,6 +7,8 @@ import torch
 import torchvision.transforms as transforms
 import torchvision
 import time
+import csv
+import math
 import pynvml
 import threading
 import subprocess
@@ -163,7 +165,13 @@ def load_data_cifar10(batch_size, resize=None):
                                         num_workers=get_dataloader_workers()))
 
 '''pynvml sampling function'''
-def nvml_sampling_thread(handle, filename, stop_event, sampling_interval):
+def nvml_sampling_thread(
+    handle,
+    filename,
+    stop_event,
+    sampling_interval,
+    sampler_errors=None,
+):
     """
     在单独的线程中定期调用 NVML, 获取功耗数据并存储到 data_queue 中。
     参数：
@@ -187,10 +195,139 @@ def nvml_sampling_thread(handle, filename, stop_event, sampling_interval):
                 time.sleep(sampling_interval)
             except pynvml.NVMLError as e:
                 print(f"NVML Error: {e}")
+                if sampler_errors is not None:
+                    sampler_errors.append(e)
                 break
+
+def _validate_nvml_trace_segment(
+    trace_path,
+    segment_offset,
+    measurement_start,
+    measurement_end,
+    sampling_interval,
+):
+    """Validate only the trace segment appended by the current training run."""
+    timestamps = []
+    malformed_rows = []
+    with open(trace_path, 'r', newline='') as f:
+        f.seek(segment_offset)
+        reader = csv.DictReader(f)
+        for row_number, row in enumerate(reader, start=2):
+            try:
+                timestamp = float(row["timestamp"])
+                power_watts = float(row["power_in_watts"])
+                sm_clock = float(row["sm_clock"])
+            except (KeyError, TypeError, ValueError):
+                malformed_rows.append(row_number)
+                continue
+            if (
+                not math.isfinite(timestamp)
+                or not math.isfinite(power_watts)
+                or not math.isfinite(sm_clock)
+                or power_watts < 0.0
+            ):
+                malformed_rows.append(row_number)
+                continue
+            timestamps.append(timestamp)
+
+    if malformed_rows:
+        raise RuntimeError(
+            f"NVML trace contains malformed rows {malformed_rows}: {trace_path}"
+        )
+    if len(timestamps) < 2:
+        raise RuntimeError(
+            f"NVML trace requires at least two valid samples: {trace_path}"
+        )
+    if any(right <= left for left, right in zip(timestamps, timestamps[1:])):
+        raise RuntimeError(
+            f"NVML trace timestamps are not strictly increasing: {trace_path}"
+        )
+
+    tolerance = max(0.05, 5.0 * float(sampling_interval))
+    if (
+        timestamps[0] > float(measurement_start) + tolerance
+        or timestamps[-1] < float(measurement_end) - tolerance
+    ):
+        raise RuntimeError(
+            "NVML trace does not cover the training interval within "
+            f"{tolerance:.6f}s tolerance: {trace_path}"
+        )
 
 '''train function without capturing layer consumption'''
 def train_func(net, train_iter, test_iter, num_epochs, lr, device, filename, sampling_interval):
+    trace_path = filename/'energy_consumption_file.csv'
+    segment_offset = None
+    stop_event = threading.Event()
+    sampler_errors = []
+    sampler_thread = None
+    sampler_started = False
+    nvml_initialized = False
+
+    def start_sampler():
+        nonlocal segment_offset, sampler_thread, sampler_started, nvml_initialized
+        segment_offset = trace_path.stat().st_size if trace_path.exists() else 0
+        pynvml.nvmlInit()
+        nvml_initialized = True
+        handle = pynvml.nvmlDeviceGetHandleByIndex(0)
+        sampler_thread = threading.Thread(
+            target=nvml_sampling_thread,
+            args=(
+                handle,
+                filename,
+                stop_event,
+                sampling_interval,
+                sampler_errors,
+            ),
+        )
+        sampler_thread.start()
+        sampler_started = True
+
+    try:
+        results = _train_func_body(
+            net,
+            train_iter,
+            test_iter,
+            num_epochs,
+            lr,
+            device,
+            start_sampler,
+        )
+    finally:
+        if nvml_initialized:
+            try:
+                stop_event.set()
+                if sampler_started:
+                    sampler_thread.join()
+            finally:
+                pynvml.nvmlShutdown()
+
+    if sampler_errors:
+        error = sampler_errors[0]
+        raise RuntimeError(f"NVML sampling failed: {error}") from error
+
+    epoch_intervals_total = results[-1]
+    if not epoch_intervals_total or not epoch_intervals_total[0]:
+        raise RuntimeError("Training produced no epoch interval for NVML validation.")
+    measurement_start = epoch_intervals_total[0][0][0]
+    measurement_end = epoch_intervals_total[-1][-1][1]
+    _validate_nvml_trace_segment(
+        trace_path,
+        segment_offset,
+        measurement_start,
+        measurement_end,
+        sampling_interval,
+    )
+    return results
+
+def _train_func_body(
+    net,
+    train_iter,
+    test_iter,
+    num_epochs,
+    lr,
+    device,
+    start_sampler,
+):
     torch.cuda.empty_cache()
     def init_weights(m):
         if type(m) == nn.Linear or type(m) == nn.Conv2d:
@@ -211,13 +348,9 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device, filename, sam
 
     # create a list to store the epoch time data
     epoch_intervals_total = []
-    
-    # Initialize NVML and sampling thread
-    pynvml.nvmlInit()
-    handle = pynvml.nvmlDeviceGetHandleByIndex(0)
-    stop_event = threading.Event()
-    sampler_thread = threading.Thread(target=nvml_sampling_thread, args=(handle, filename, stop_event, sampling_interval))
-    sampler_thread.start()
+
+    # Preserve the legacy boundary: sampling starts after model/training setup.
+    start_sampler()
 
     for epoch in range(num_epochs):
         print('The epoch is:', epoch+1)
@@ -304,11 +437,6 @@ def train_func(net, train_iter, test_iter, num_epochs, lr, device, filename, sam
         epoch_intervals_total.append(epoch_intervals_epoch)
         torch.cuda.empty_cache()
 
-
-    # End training and close thread
-    stop_event.set()
-    sampler_thread.join()
-    pynvml.nvmlShutdown()
 
     return to_device_intervals_total, forward_intervals_total, loss_intervals_total, backward_intervals_total, optimize_intervals_total, test_intervals_total, epoch_intervals_total
 

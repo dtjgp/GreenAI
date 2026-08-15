@@ -66,6 +66,22 @@ scheduling.
 - Exploratory architecture studies must be separated from the main publishable
   measurement-scheduling narrative.
 
+## Measurement Failure and Proportional Robustness
+
+- Treat measurement collection, synchronization, parsing, or time-coverage
+  failure as an invalid run, not as a successful result with degraded evidence.
+- Never represent missing, corrupt, incomplete, or unverified energy data as
+  zero energy, an empty successful table, or another valid measurement.
+- Catch exceptions only to perform required cleanup, add actionable context and
+  re-raise, or apply a recovery path whose scientific meaning is explicitly
+  defined, observable, and verified.
+- Keep recovery proportional to the failure. Do not add speculative abstraction,
+  compatibility, configurability, retry, or fallback layers to measurement and
+  scheduling code without a demonstrated requirement.
+- A recovered or partial run may support a paper-facing result only when the
+  recovery is recorded in the artifact and the governing measurement protocol
+  explicitly permits it.
+
 ## Evaluation Metrics
 
 Measurement and modeling:
@@ -185,3 +201,26 @@ This project is connected to the central `llm-wiki` knowledge base:
 - Do not present optimization gains without stating the baseline policy.
 - Do not present carbon or cost reductions without stating energy source,
   price/carbon trace, and time horizon.
+
+## Manuscript Writing
+
+- Before drafting, revising, polishing, interpreting results, writing captions,
+  or performing submission checks, read
+  `Docs/writing/ACADEMIC_WRITING_STYLE_GUIDE.md`.
+- Use that guide for common manuscript structure and style. Current measured
+  artifacts, this file's claim boundaries, and target-venue requirements take
+  precedence whenever they impose a stricter scientific or formatting rule.
+- Present paper-facing reasoning in the order: measured result, applicable
+  scope, then interpretation.
+- Put general external-validity caveats and future-work discussion in the
+  Limitations section instead of scattering repeated caution across the paper.
+- Keep hardware, sampling, synchronization, workload, power-limit, scheduling,
+  and deadline constraints next to the claim they qualify when removing them
+  would change the claim's meaning or validity.
+- Do not dilute supported findings with template phrases such as "further
+  research is needed" or "this result should be interpreted with caution" in
+  every paragraph. State the exact boundary once, at the location where it
+  affects the inference.
+- Direct writing must remain evidence-calibrated: clearer prose never licenses
+  stronger generalization, causal language, or certainty than the measured
+  artifacts support.
