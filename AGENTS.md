@@ -6,6 +6,10 @@ Work as a coding and research assistant for the GreenAI repository. Prioritize
 measurement-grounded evidence, reproducible energy analysis, and a publishable
 connection between GPU training characterization and hybrid energy scheduling.
 
+This file owns the shared project rules. `CLAUDE.md` imports it and retains only
+navigation context; current priorities and acceptance contracts belong in
+`GOALS.md`, and current facts come from the linked repository artifacts.
+
 ## Research Method Review
 
 - For proposed methods, experiment designs, result interpretation, paper plans,
@@ -36,7 +40,7 @@ scheduling.
 ## Authoritative Sources
 
 - Current project overview: `README.md`.
-- Current AI-assistant project charter: `CLAUDE.md`.
+- Shared assistant protocol: this file; `CLAUDE.md` is the Claude adapter.
 - Current goals and verifiers: `GOALS.md` when present.
 - Measurement and modeling artifacts: `GPU_Performance/`.
 - Scheduling and optimization artifacts: `Optimization/`.
@@ -48,7 +52,7 @@ scheduling.
 - GPU measurement and cross-hardware analysis: `GPU_Performance/`.
 - Hybrid energy scheduling and optimization: `Optimization/`.
 - Repository overview and historical notes: `README.md`.
-- Assistant-facing project charter and wiki integration: `CLAUDE.md`.
+- Shared claim boundaries and wiki routing: this file.
 
 ## Claim Boundaries
 
@@ -118,8 +122,11 @@ Scheduling and optimization:
 
 - Before substantial implementation, analysis, paper-claim, or documentation
   work, read `GOALS.md` and identify which goal the work advances.
-- Treat a goal as complete only when its success criteria and verifier pass, or
-  when a blocker is documented with concrete evidence.
+- Treat a goal as complete only when its success criteria and required
+  acceptance verifier pass. Evidence discovery, keyword matches, partial
+  verification, and a documented execution blocker do not complete a goal.
+- A supported negative/no-go result may close a goal whose stated objective is
+  to make that scientific decision; retain its evidence and claim boundary.
 - For energy or scheduling claims, always report the data source, hardware,
   power limit, model, dataset, and measurement procedure.
 - If a full rerun is too expensive, perform the strongest partial verification
@@ -168,10 +175,13 @@ This project is connected to the central `llm-wiki` knowledge base:
 
 ### Write-Back Rules
 
-- New research insight worth keeping: write to `llm-wiki/Insights/`.
-- Important new paper: follow the wiki INGEST workflow.
-- New taxonomy or canonical-path change: update the relevant wiki navigation or
-  docs.
+- When the current task includes durable research writeback, follow the vault
+  `AGENTS.md` and `_schema.md` before the first write; use its established
+  insight, INGEST, or navigation workflow. Follow any applicable automation
+  registration/lease contract without treating an ordinary task as an automation.
+- Existing user authorization remains valid. Finish authorized repository work
+  while preparing any genuinely undecided writeback as a reviewable proposal;
+  do not infer permission to mutate the vault solely from a related keyword.
 
 ## Coding Expectations
 
@@ -187,6 +197,11 @@ This project is connected to the central `llm-wiki` knowledge base:
 ## Verification Expectations
 
 - For data analysis changes, re-run or inspect the affected processed output.
+- Match checks to the changed behavior and declared goal. For instruction or
+  wording edits, check links, consistency, and affected claims; do not run a
+  measurement campaign or add tests that only repeat the prose.
+- After relevant checks and required gates pass, broaden/repeat only for a new
+  change, failure, or unresolved concern, then complete the authorized handoff.
 - For scheduling changes, verify feasibility, constraints, and objective values
   on at least one small scenario.
 - For paper-facing numbers, trace them to measured data and scripts.
@@ -204,9 +219,11 @@ This project is connected to the central `llm-wiki` knowledge base:
 
 ## Manuscript Writing
 
-- Before drafting, revising, polishing, interpreting results, writing captions,
-  or performing submission checks, read
-  `Docs/writing/ACADEMIC_WRITING_STYLE_GUIDE.md`.
+- Before substantive manuscript drafting, result interpretation, or submission
+  checks, read the relevant sections of
+  `Docs/writing/ACADEMIC_WRITING_STYLE_GUIDE.md`. For a local wording correction,
+  inspect the affected text, its evidence boundary, and the applicable style
+  rule without reloading unrelated manuscript context.
 - Use that guide for common manuscript structure and style. Current measured
   artifacts, this file's claim boundaries, and target-venue requirements take
   precedence whenever they impose a stricter scientific or formatting rule.

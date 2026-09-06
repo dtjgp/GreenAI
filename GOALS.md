@@ -1,19 +1,33 @@
 # GreenAI Goals
 
 This file turns the GreenAI project plan into Codex-executable goals. Use
-`README.md`, `CLAUDE.md`, measured data directories, and current scripts as the
-source of truth for project facts.
+`README.md`, measured data directories, and current scripts as the source of
+truth for project facts. `AGENTS.md` owns the shared evidence and execution rules.
 
 ## Definition of Done
 
 A goal is complete only when:
 
 - The required measured-data or code artifacts exist.
-- The verifier, or the strongest feasible subset, has been run.
+- The required acceptance checks have passed and their artifact paths, exact
+  commands or review records, and outcomes are recorded.
+- Discovery searches and a strongest-feasible subset alone remain partial.
+  An unavailable input, environment, or verifier remains blocked/open.
 - The result is traceable to hardware, model, dataset, power limit, and
   measurement procedure.
 - Paper-facing claims are updated conservatively and do not rely on synthetic
   energy traces.
+
+## Acceptance Status And Stop Conditions
+
+The discovery commands below locate candidate evidence; their exit codes are
+not scientific acceptance. The acceptance sections define the required checks,
+not a claim that an automated verifier already exists or has passed. During
+authorized goal work, bind each check to an actual artifact and executable
+command or inspectable review record before declaring completion. Record any
+missing validator as an open implementation need rather than inventing a pass.
+Stop successfully only when the stated goal criteria pass. A supported no-go
+may close an explicit decision objective; an execution blocker does not.
 
 ## Goal 1: Canonical Benchmark Subset
 
@@ -41,12 +55,23 @@ discrete power levels for the main measurement study.
 - `CLAUDE.md`
 - `GPU_Performance/`
 
-### Verifier
+### Evidence Discovery (Not Acceptance)
 
 ```bash
-find GPU_Performance -maxdepth 3 -type f | sort | sed -n '1,160p'
-rg -n "RTX|M1|M3|power|Power|AlexNet|VGG|ResNet|GoogLeNet|MobileNet|ViT" README.md CLAUDE.md GPU_Performance
+rg --files GPU_Performance -g '*.csv' -g '*.json' -g '*.py' -g '*.ipynb'
+rg -l -g '*.md' -g '*.py' "RTX|M1|M3|power|Power|AlexNet|VGG|ResNet|GoogLeNet|MobileNet|ViT" README.md CLAUDE.md GPU_Performance
 ```
+
+### Acceptance Verifier And Stop Condition
+
+- Validate a nonempty registry with a unique run identity, model, dataset,
+  hardware/location, discrete power limit, batch/epoch count, synchronization,
+  sampling policy, environment, and existing measured-data path for every row.
+- Compare the registry against the declared benchmark Cartesian set; list
+  missing combinations and distinguish main from exploratory runs explicitly.
+- Reject missing required fields, missing raw inputs, and duplicate run keys.
+  Record the registry path and validation receipt; complete only when all
+  success criteria above are satisfied.
 
 ## Goal 2: Power-Performance Model Validation
 
@@ -73,11 +98,21 @@ GBR (Gradient Boosting Regression) and related regression models.
 - `GPU_Performance/`
 - power-limit analysis notebooks or scripts referenced in `README.md`
 
-### Verifier
+### Evidence Discovery (Not Acceptance)
 
 ```bash
-rg -n "GBR|Gradient|Regression|TrainSpeed|PowerLimit|EnergySaving|prediction|MAE|RMSE|MAPE|R2" GPU_Performance README.md CLAUDE.md
+rg -l -g '*.md' -g '*.py' "GBR|Gradient|Regression|TrainSpeed|PowerLimit|EnergySaving|prediction|MAE|RMSE|MAPE|R2" GPU_Performance README.md CLAUDE.md
 ```
+
+### Acceptance Verifier And Stop Condition
+
+- Freeze the metric definition, train/test or cross-validation split, and the
+  measured source identifiers; ensure evaluation data do not enter training.
+- Recompute each reported prediction-error value from stored predictions and
+  measured targets with the declared units, aggregation, and tolerance.
+- Reject missing/non-finite inputs, split overlap, and metric disagreement.
+  Record the input/prediction/split paths and verifier outcome; curve or keyword
+  presence alone does not complete this goal.
 
 ## Goal 3: Scheduling Baselines
 
@@ -106,12 +141,25 @@ scheduler.
 - `CLAUDE.md`
 - PVWatts and scheduling code referenced by the project notes
 
-### Verifier
+### Evidence Discovery (Not Acceptance)
 
 ```bash
-find Optimization -maxdepth 4 -type f | sort | sed -n '1,160p'
-rg -n "Gurobi|MILP|battery|solar|grid|PVWatts|deadline|cost|carbon|baseline|heuristic" Optimization README.md CLAUDE.md
+rg --files Optimization -g '*.py' -g '*.ipynb' -g '*.csv' -g '*.json'
+rg -l -g '*.md' -g '*.py' "Gurobi|MILP|battery|solar|grid|PVWatts|deadline|cost|carbon|baseline|heuristic" Optimization README.md CLAUDE.md
 ```
+
+### Acceptance Verifier And Stop Condition
+
+- Evaluate the declared baseline policies and optimized policy on the same
+  measured power-performance inputs, workloads, time horizon, price/carbon
+  traces, initial state, and completion/deadline requirements.
+- Check power balance, discrete GPU states, charge/discharge efficiencies,
+  battery state bounds, training progress, and required completion/deadlines.
+- Recompute cost/carbon/utilization metrics and compare the admitted policies;
+  retain infeasible cases with explicit status instead of silently dropping them.
+- Reject a deliberately mismatched scenario or violated constraint in the
+  chosen verifier. Record scenario, result, and verification paths before
+  completing the goal; solver success alone does not establish these criteria.
 
 ## Goal 4: Reproducibility Layer
 
@@ -141,11 +189,24 @@ results auditable.
 - `GPU_Performance/`
 - `Optimization/`
 
-### Verifier
+### Evidence Discovery (Not Acceptance)
 
 ```bash
-rg -n "schema|registry|environment|seed|version|command|sampling|nvidia-smi|powermetrics|CodeCarbon|csv|database" README.md CLAUDE.md AGENTS.md GPU_Performance Optimization
+rg -l -g '*.md' -g '*.py' "schema|registry|environment|seed|version|command|sampling|nvidia-smi|powermetrics|CodeCarbon|csv|database" README.md CLAUDE.md AGENTS.md GPU_Performance Optimization
 ```
+
+### Acceptance Verifier And Stop Condition
+
+- Trace every admitted result through its raw input, configuration, environment,
+  exact command, generator, and output identity; validate that referenced paths
+  exist and distinguish raw from derived files.
+- Reproduce an affected table/figure in the declared output location and compare
+  it with the recorded result using an explicit equality/tolerance rule.
+- Check raw-input hashes before/after to establish that analysis did not
+  overwrite them. Existing sampling-contract tests can support collection
+  invariants but do not replace end-to-end result provenance.
+- Record each completed check and unresolved reproduction gap; an incomplete
+  path/command chain leaves this goal partial.
 
 ## Goal 5: Paper Narrative Packaging
 
@@ -174,8 +235,20 @@ characterization, predictive modeling, and optimization outcomes.
 - `GPU_Performance/`
 - `Optimization/`
 
-### Verifier
+### Evidence Discovery (Not Acceptance)
 
 ```bash
-rg -n "publication|MSWiM|DOI|contribution|baseline|limitation|reproducible|open-source|paper|figure|table" README.md CLAUDE.md AGENTS.md GPU_Performance Optimization
+rg -l -g '*.md' -g '*.py' "publication|MSWiM|DOI|contribution|baseline|limitation|reproducible|open-source|paper|figure|table" README.md CLAUDE.md AGENTS.md GPU_Performance Optimization
 ```
+
+### Acceptance Verifier And Stop Condition
+
+- Review an explicit claim-to-evidence map for measurement, modeling, and
+  scheduling contributions, including baseline, scope, metric, generator, and
+  source artifact for every numerical claim.
+- Verify that main claims use measured evidence, that relevant hardware and
+  comparison limits remain next to the inference, and that exploratory work is
+  visibly separated. Check release-plan paths and reproduction instructions.
+- Record the inspected manuscript/map version and unresolved evidence markers.
+  Close only when the declared packaging criteria are met; this review does not
+  close an unfinished measurement, model-validation, or scheduling goal.
