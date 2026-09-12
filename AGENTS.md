@@ -6,15 +6,15 @@ Work as a coding and research assistant for the GreenAI repository. Prioritize
 measurement-grounded evidence, reproducible energy analysis, and a publishable
 connection between GPU training characterization and hybrid energy scheduling.
 
-This file owns the shared project rules. `CLAUDE.md` imports it and retains only
-navigation context; current priorities and acceptance contracts belong in
+This file owns the shared project rules. `CLAUDE.md` only imports it; current priorities and acceptance contracts belong in
 `GOALS.md`, and current facts come from the linked repository artifacts.
 
 ## Research Method Review
 
-- For proposed methods, experiment designs, result interpretation, paper plans,
-  novelty/rigor assessments, or claim-boundary reviews, use
-  `$research-method-review`.
+- Use `$research-method-review` when the task asks to assess a method,
+  experimental design, novelty, rigor, or evidence-to-claim fit. Routine code
+  maintenance, plotting, and wording corrections follow their affected artifact
+  and verifier; a research topic alone does not trigger a full method review.
 - Before a strong GreenAI judgment, inspect the measured repository artifacts
   first. The review skill does not override this project's measurement,
   reproducibility, or claim-boundary rules.
@@ -51,7 +51,9 @@ scheduling.
 
 - GPU measurement and cross-hardware analysis: `GPU_Performance/`.
 - Hybrid energy scheduling and optimization: `Optimization/`.
-- Repository overview and historical notes: `README.md`.
+- Repository overview: `README.md`.
+- When historical setup/publication context is needed, consult
+  `Docs/reference/PROJECT_CONTEXT_20260410.md`; verify current facts separately.
 - Shared claim boundaries and wiki routing: this file.
 
 ## Claim Boundaries
@@ -138,40 +140,25 @@ This project is connected to the central `llm-wiki` knowledge base:
 
 - Wiki path: `/Users/dtjgp/Obsidian/llm-wiki`
 
-### Required Behavior
+### Research Retrieval
 
 - For current project status and measured-energy facts, inspect repository
   artifacts first.
-- For broader research positioning, modeling, optimization, scheduling,
-  baseline selection, or paper writing, consult `llm-wiki`.
-- Prefer `qmd` retrieval first, then read canonical wiki files directly when
-  more detail is needed.
-- When sandbox or reranking causes issues, fall back to `qmd search` or
-  `qmd query --no-rerank`.
-- When producing research conclusions, cite the relevant wiki pages with
-  `[[wikilink]]` style references when appropriate.
-
-### Recommended Retrieval Flow
-
-1. Run `qmd query "your question"` for hybrid retrieval.
-2. If needed, fall back to `qmd search "keywords"` or
-   `qmd query "your question" --no-rerank`.
-3. Read canonical pages directly:
-   - `Topics/Green_AI.md`
-   - `Methods/Modeling/GBR.md`
-   - `Methods/Optimization/MILP.md`
-   - `Topics/Edge_AI/Overview.md`
-4. Check `Literature/Paper_Notes/` for paper-grounded evidence before making
-   strong claims.
-
-### Trigger Topics
-
-- GPU power limit, power cap, training energy, stage-wise energy.
-- Forward, backward, loss, optimize, and layer-level energy.
-- GBR, regression, prediction error, heterogeneous GPUs.
-- MILP, Gurobi, battery, solar, grid, hybrid scheduling.
-- Carbon, electricity cost, renewable utilization, deadline satisfaction.
-- Measurement protocol, reproducibility, benchmark design, reviewer response.
+- Consult `llm-wiki` when the task needs prior literature, research positioning,
+  baseline selection, experiment design, or manuscript sources. A local code
+  or wording correction does not require wiki retrieval solely because it
+  mentions power, optimization, or another research term.
+- Follow the vault's `System/Reference/Operations/Agent_Context_Map.md` to
+  choose the relevant canonical pages before searching. Within the vault,
+  `Topics/Green_AI.md`, `Methods/Modeling/GBR.md`,
+  `Methods/Optimization/MILP.md`, and `Topics/Edge_AI/Overview.md` are topic
+  entrypoints; load only those relevant to the question.
+- Supplement with `rg` or short-keyword `qmd search`. Use vector/hybrid retrieval
+  only when the current runtime meets the vault's retrieval contract; read
+  `System/Benchmarks/QMD_Retrieval/README.md` when that capability is needed.
+- Verify research claims against the original paper or measured artifact;
+  retrieval failure is not evidence that the knowledge is absent. Cite canonical
+  wiki pages with `[[wikilink]]` references when appropriate.
 
 ### Write-Back Rules
 
