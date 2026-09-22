@@ -54,6 +54,8 @@ scheduling.
 - Repository overview: `README.md`.
 - When historical setup/publication context is needed, consult
   `Docs/reference/PROJECT_CONTEXT_20260410.md`; verify current facts separately.
+- Evaluation metrics and baseline catalog:
+  `Docs/reference/EVALUATION_METRICS_AND_BASELINES.md`.
 - Shared claim boundaries and wiki routing: this file.
 
 ## Claim Boundaries
@@ -88,37 +90,12 @@ scheduling.
   recovery is recorded in the artifact and the governing measurement protocol
   explicitly permits it.
 
-## Evaluation Metrics
+## Evaluation Metrics and Baselines
 
-Measurement and modeling:
-
-- Epoch time.
-- Stage-wise execution time.
-- Epoch energy.
-- Stage-wise energy.
-- Energy-delay tradeoff.
-- Energy efficiency under power caps.
-- Prediction error of power-performance models.
-
-Scheduling and optimization:
-
-- Electricity cost reduction.
-- Carbon/emission reduction.
-- Renewable energy utilization.
-- Battery utilization efficiency.
-- Training completion ratio or deadline satisfaction.
-- Training time extension under constrained power.
-
-## Baselines and Comparisons
-
-- Full-power training without GPU power capping.
-- Uniform fixed power-cap policies across the full training horizon.
-- Pure-grid supply versus hybrid supply with solar and battery.
-- Different GPU power-limit settings under matched training-budget or
-  matched-energy-budget scenarios.
-- Model-level and hardware-level comparisons across heterogeneous GPU platforms.
-- Scheduling heuristics and fixed-policy baselines before claiming optimization
-  advantage.
+- For experiment design, metric or baseline selection, and paper-claim
+  packaging, read `Docs/reference/EVALUATION_METRICS_AND_BASELINES.md`.
+- Before claiming optimization advantage, compare against scheduling
+  heuristics and fixed-policy baselines.
 
 ## Goal and Verification Protocol
 

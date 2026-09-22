@@ -232,13 +232,14 @@ characterization, predictive modeling, and optimization outcomes.
 
 - `README.md`
 - `CLAUDE.md`
+- `Docs/reference/EVALUATION_METRICS_AND_BASELINES.md`
 - `GPU_Performance/`
 - `Optimization/`
 
 ### Evidence Discovery (Not Acceptance)
 
 ```bash
-rg -l -g '*.md' -g '*.py' "publication|MSWiM|DOI|contribution|baseline|limitation|reproducible|open-source|paper|figure|table" README.md CLAUDE.md AGENTS.md GPU_Performance Optimization
+rg -l -g '*.md' -g '*.py' "publication|MSWiM|DOI|contribution|baseline|limitation|reproducible|open-source|paper|figure|table" README.md CLAUDE.md AGENTS.md Docs/reference/EVALUATION_METRICS_AND_BASELINES.md GPU_Performance Optimization
 ```
 
 ### Acceptance Verifier And Stop Condition
